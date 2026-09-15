@@ -1,0 +1,32 @@
+{
+  "name": "PWA Pocket",
+  "short_name": "Pocket",
+  "id": "./",
+  "description": "Le web, en liberté. Une démonstration PWA à emporter.",
+  "lang": "fr",
+  "theme_color": "#2459e0",
+  "background_color": "#f7f9fc",
+  "display": "standalone",
+  "scope": "./",
+  "start_url": "./",
+  "icons": [
+    {
+      "src": "icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

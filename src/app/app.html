@@ -1,0 +1,56 @@
+<a class="skip-link" href="#main" (click)="$event.preventDefault(); main.focus()"
+  >Aller au contenu</a
+>
+<div class="top-stack">
+  @if (!network.online()) {
+    <div class="offline-banner" role="status">
+      <span aria-hidden="true">↯</span> Vous êtes hors connexion. L’application reste disponible.
+    </div>
+  }
+  <header class="site-header">
+    <a class="brand" routerLink="/" aria-label="PWA Pocket, accueil"
+      ><span class="brand-symbol">p.</span
+      ><span>PWA<span class="brand-light">Pocket</span><small>LE WEB, EN LIBERTÉ.</small></span></a
+    >
+    <nav class="desktop-nav" aria-label="Navigation principale">
+      @for (link of links; track link.path) {
+        <a
+          [routerLink]="link.path"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          ariaCurrentWhenActive="page"
+          >{{ link.label }}</a
+        >
+      }
+    </nav>
+    <span class="connection" [class.disconnected]="!network.online()"
+      ><span class="live-dot"></span>{{ network.online() ? 'En ligne' : 'Hors ligne' }}</span
+    >
+  </header>
+</div>
+@if (pwa.updateReady()) {
+  <div class="update-banner" role="status">
+    Une nouvelle version est prête.
+    <button class="text-button" (click)="pwa.reload()">Actualiser l’application</button>
+  </div>
+}
+<main #main id="main" tabindex="-1"><router-outlet /></main>
+<footer class="site-footer">
+  <a class="brand footer-brand" routerLink="/"
+    ><span class="brand-symbol">p.</span><span>PWA Pocket</span></a
+  >
+  <p>Une petite application. Une grande idée du web.</p>
+  <span>Fait pour explorer · Démo sans backend</span>
+</footer>
+<nav class="bottom-nav" aria-label="Navigation mobile">
+  @for (link of links; track link.path) {
+    <a
+      [routerLink]="link.path"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      ariaCurrentWhenActive="page"
+      ><span aria-hidden="true">{{ link.icon }}</span
+      >{{ link.label }}</a
+    >
+  }
+</nav>
