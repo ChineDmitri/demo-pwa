@@ -9,7 +9,10 @@ type ViewPhoto = Photo & { url: string };
     <header class="page-heading">
       <span class="eyebrow">03 / PHOTOS</span>
       <h1>Les petits instants.<br /><em>Gardez-les ici.</em></h1>
-      <p>Une photo, un souvenir. Votre galerie voyage avec vous, même sans Internet.</p>
+      <p>
+        Chaque photo est automatiquement enregistrée dans la galerie de l’application, même sans
+        Internet.
+      </p>
     </header>
     <section class="card camera-card">
       <div class="camera-preview">
@@ -59,7 +62,7 @@ type ViewPhoto = Photo & { url: string };
           <p>
             {{
               saved()
-                ? 'Enregistrée dans la galerie de cette application.'
+                ? 'Enregistrée automatiquement dans la galerie de cette application.'
                 : 'Photo non enregistrée : exportez-la pour la conserver.'
             }}
           </p>

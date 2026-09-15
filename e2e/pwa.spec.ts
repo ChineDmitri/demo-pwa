@@ -9,16 +9,14 @@ test('toutes les pages et la galerie restent disponibles après rechargement hor
   await page.goto('./');
   await expect(page.getByText('✓ Prête hors ligne', { exact: true })).toBeVisible();
   await page.getByRole('link', { name: 'Photos', exact: true }).first().click();
-  await page
-    .locator('input[type=file]')
-    .setInputFiles({
-      name: 'test.png',
-      mimeType: 'image/png',
-      buffer: Buffer.from(
-        'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=',
-        'base64',
-      ),
-    });
+  await page.locator('input[type=file]').setInputFiles({
+    name: 'test.png',
+    mimeType: 'image/png',
+    buffer: Buffer.from(
+      'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=',
+      'base64',
+    ),
+  });
   await expect(page.getByText('Photo enregistrée sur cet appareil ✓')).toBeVisible();
   await expect(page.locator('.gallery-item')).toHaveCount(1);
   await context.setOffline(true);
@@ -98,16 +96,14 @@ test('météo réelle simulée puis erreur fournisseur, distincte du hors ligne'
 
 test('galerie : aperçu, export, annulation puis suppression persistante', async ({ page }) => {
   await page.goto('./#/photos');
-  await page
-    .locator('input[type=file]')
-    .setInputFiles({
-      name: 'test.png',
-      mimeType: 'image/png',
-      buffer: Buffer.from(
-        'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=',
-        'base64',
-      ),
-    });
+  await page.locator('input[type=file]').setInputFiles({
+    name: 'test.png',
+    mimeType: 'image/png',
+    buffer: Buffer.from(
+      'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=',
+      'base64',
+    ),
+  });
   await expect(page.locator('.gallery-item')).toHaveCount(1);
   await page.getByRole('button', { name: 'Agrandir la photo' }).click();
   await expect(page.getByRole('dialog', { name: 'Aperçu de la photo' })).toBeVisible();
@@ -180,16 +176,14 @@ test('stockage plein : aperçu et téléchargement de secours restent disponible
     };
   });
   await page.goto('./#/photos');
-  await page
-    .locator('input[type=file]')
-    .setInputFiles({
-      name: 'test.png',
-      mimeType: 'image/png',
-      buffer: Buffer.from(
-        'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=',
-        'base64',
-      ),
-    });
+  await page.locator('input[type=file]').setInputFiles({
+    name: 'test.png',
+    mimeType: 'image/png',
+    buffer: Buffer.from(
+      'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=',
+      'base64',
+    ),
+  });
   await expect(page.getByText('Stockage plein ou indisponible.', { exact: false })).toBeVisible();
   await expect(page.locator('.latest-photo img')).toBeVisible();
   await expect(page.locator('.gallery-item')).toHaveCount(0);
@@ -261,4 +255,47 @@ test('nouvelle version du service worker annoncée puis chargée', async ({ page
   } finally {
     await writeFile(manifestPath, original);
   }
+});
+
+test('version affichée et gestes natifs bloqués sans empêcher la navigation', async ({ page }) => {
+  const { readFile } = await import('node:fs/promises');
+  const { version } = JSON.parse(await readFile('package.json', 'utf8'));
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('./');
+  await expect(page.locator('.app-version')).toHaveText('Version ' + version);
+  const result = await page.evaluate(() => {
+    const link = document.querySelector('.bottom-nav a')!;
+    const context = new MouseEvent('contextmenu', { bubbles: true, cancelable: true });
+    const double = new MouseEvent('dblclick', { bubbles: true, cancelable: true });
+    const gesture = new Event('gesturestart', { bubbles: true, cancelable: true });
+    const pinch = new Event('touchstart', { bubbles: true, cancelable: true });
+    Object.defineProperty(pinch, 'touches', { value: [{}, {}] });
+    const single = new Event('touchstart', { bubbles: true, cancelable: true });
+    Object.defineProperty(single, 'touches', { value: [{}] });
+    link.dispatchEvent(context);
+    link.dispatchEvent(double);
+    document.dispatchEvent(gesture);
+    document.dispatchEvent(pinch);
+    document.dispatchEvent(single);
+    return {
+      context: context.defaultPrevented,
+      double: double.defaultPrevented,
+      gesture: gesture.defaultPrevented,
+      pinch: pinch.defaultPrevented,
+      single: single.defaultPrevented,
+      touchAction: getComputedStyle(document.body).touchAction,
+    };
+  });
+  expect(result).toEqual({
+    context: true,
+    double: true,
+    gesture: true,
+    pinch: true,
+    single: false,
+    touchAction: 'pan-x pan-y',
+  });
+  await page.locator('.bottom-nav').getByRole('link', { name: 'Photos' }).click();
+  await expect(
+    page.getByText('Chaque photo est automatiquement enregistrée', { exact: false }),
+  ).toBeVisible();
 });

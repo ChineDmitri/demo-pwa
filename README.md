@@ -126,3 +126,11 @@ Couverture :
 - [Notifications web sur iOS / WebKit](https://webkit.org/blog/13878/web-push-for-web-apps-on-ios-and-ipados/)
 - [Open-Meteo : API](https://open-meteo.com/en/docs) et [conditions d’utilisation](https://open-meteo.com/en/terms)
 - [Web Share API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/share)
+
+## Version 0.1.0
+
+La version affichée en pied de page provient de `package.json`. Utiliser `npm version minor --no-git-tag-version` pour une prochaine version mineure.
+
+Le zoom tactile (pincement et double appui) et le menu d’appui long sur les commandes sont désactivés, tout en conservant le défilement à un doigt. Les réglages d’accessibilité ou l’interface du système peuvent prendre le dessus ; vérifier sur les téléphones cibles.
+
+Chaque capture est automatiquement conservée dans la galerie interne. L’export vers la photothèque du téléphone reste manuel.

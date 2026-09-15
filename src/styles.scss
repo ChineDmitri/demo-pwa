@@ -1472,3 +1472,30 @@ dialog p {
 .hero-art .art-note {
   bottom: 0;
 }
+
+/* Keep one-finger scrolling while suppressing page zoom and native link callouts. */
+html,
+body {
+  touch-action: pan-x pan-y;
+}
+a,
+button,
+.button,
+img,
+video {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+input,
+textarea {
+  -webkit-user-select: text;
+  user-select: text;
+}
+.app-version {
+  display: block;
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--muted);
+}
