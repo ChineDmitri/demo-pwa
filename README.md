@@ -134,3 +134,11 @@ La version affichée en pied de page provient de `package.json`. Utiliser `npm v
 Le zoom tactile (pincement et double appui) et le menu d’appui long sur les commandes sont désactivés, tout en conservant le défilement à un doigt. Les réglages d’accessibilité ou l’interface du système peuvent prendre le dessus ; vérifier sur les téléphones cibles.
 
 Chaque capture est automatiquement conservée dans la galerie interne. L’export vers la photothèque du téléphone reste manuel.
+
+## Correctif 0.1.1 — export iPhone / iPad
+
+Le bouton Enregistrer utilise le partage natif d’un fichier JPEG sur iOS, directement au clic. Choisir « Enregistrer l’image » pour Photos ou « Enregistrer dans Fichiers ». Le téléchargement classique reste disponible sur les autres appareils. En cas d’échec du partage, un aperçu de secours autorise exceptionnellement l’appui long sur l’image pour proposer son enregistrement ; les boutons conservent le blocage des menus natifs. Annuler le partage ne déclenche aucun téléchargement. La logique iOS est testée avec des API simulées ; la feuille système doit être vérifiée sur un appareil réel.
+
+## Correctif 0.1.2 — téléchargement automatique Android
+
+Sur Android, chaque capture ou image importée déclenche un téléchargement JPEG dès que l’image est prête, en plus de la sauvegarde dans IndexedDB. La copie téléchargée est à chercher dans Fichiers → Téléchargements ; son apparition dans Google Photos ou une autre photothèque dépend du téléphone. Le message indique une demande de téléchargement, car le navigateur ne permet pas de confirmer son enregistrement final. Le bouton Télécharger reste disponible si le navigateur demande une confirmation ou bloque le téléchargement automatique. Le parcours iPhone conserve le partage natif de la version 0.1.1.

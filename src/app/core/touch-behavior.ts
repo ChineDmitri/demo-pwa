@@ -5,6 +5,7 @@ export function installTouchBehavior(): () => void {
     if (event.touches.length > 1) event.preventDefault();
   };
   const preventCallout = (event: Event) => {
+    if (event.target instanceof Element && event.target.closest('[data-allow-save]')) return;
     if (event.target instanceof Element && event.target.closest('a, button, .button, img, video')) {
       event.preventDefault();
     }

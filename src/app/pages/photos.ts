@@ -15,6 +15,12 @@ type ViewPhoto = Photo & { url: string };
       </p>
     </header>
     <section class="card camera-card">
+      @if (android) {
+        <p class="hint">
+          Sur Android, chaque capture déclenche aussi un téléchargement JPEG. Retrouvez la copie
+          dans Fichiers → Téléchargements.
+        </p>
+      }
       <div class="camera-preview">
         <video
           #video
@@ -67,12 +73,19 @@ type ViewPhoto = Photo & { url: string };
             }}
           </p>
           <div class="actions">
-            <button class="primary" (click)="download(photo)">Télécharger</button
+            <button class="primary" (click)="download(photo)">
+              {{ ios ? 'Enregistrer sur l’iPhone / iPad' : 'Télécharger' }}</button
             ><button class="secondary" (click)="share(photo)">Partager / enregistrer</button>
           </div>
         </div>
         <img [src]="photo.url" alt="Dernière photo capturée" />
       </section>
+    }
+    @if (ios) {
+      <p class="hint">
+        Pour conserver une photo dans Photos, touchez « Enregistrer », puis « Enregistrer l’image »
+        dans la feuille de partage. « Enregistrer dans Fichiers » conserve une copie dans Fichiers.
+      </p>
     }
     <div class="section-heading">
       <div>
@@ -106,7 +119,9 @@ type ViewPhoto = Photo & { url: string };
               <button
                 class="icon-button"
                 (click)="download(photo)"
-                aria-label="Télécharger cette photo"
+                [attr.aria-label]="
+                  ios ? 'Enregistrer cette photo sur l’iPhone / iPad' : 'Télécharger cette photo'
+                "
               >
                 ↓</button
               ><button class="icon-button" (click)="share(photo)" aria-label="Partager cette photo">
@@ -138,6 +153,32 @@ type ViewPhoto = Photo & { url: string };
         </button>
       }
     </dialog>
+    <dialog #exportDialog aria-labelledby="export-title">
+      <button
+        class="icon-button"
+        aria-label="Fermer l’enregistrement"
+        (click)="exportDialog.close()"
+      >
+        ×
+      </button>
+      <h2 id="export-title">Enregistrer votre photo</h2>
+      <p role="status">
+        La feuille de partage n’est pas disponible. Maintenez le doigt sur l’image ci-dessous, puis
+        choisissez « Enregistrer l’image » si cette option est proposée.
+      </p>
+      @if (exportFallback(); as photo) {
+        <img
+          class="export-image"
+          data-allow-save
+          [src]="photo.url"
+          alt="Photo à enregistrer dans Photos"
+        />
+      }
+      <p class="hint">
+        Votre photo reste disponible dans la galerie de l’application. Si aucun menu n’apparaît,
+        réessayez le partage dans Safari.
+      </p>
+    </dialog>
     <dialog #confirmation aria-labelledby="delete-title">
       <h2 id="delete-title">Supprimer cette photo ?</h2>
       <p>
@@ -152,7 +193,13 @@ type ViewPhoto = Photo & { url: string };
   `,
 })
 export class Photos implements OnInit, OnDestroy {
+  readonly android = /Android/i.test(navigator.userAgent);
   @ViewChild('video', { static: true }) video!: ElementRef<HTMLVideoElement>;
+  @ViewChild('exportDialog', { static: true }) exportDialog!: ElementRef<HTMLDialogElement>;
+  readonly ios =
+    /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  exportFallback = signal<ViewPhoto | null>(null);
   store = inject(PhotosStore);
   photos = signal<ViewPhoto[]>([]);
   latest = signal<ViewPhoto | null>(null);
@@ -275,19 +322,44 @@ export class Photos implements OnInit, OnDestroy {
     if (previous && !this.photos().some((p) => p.id === previous.id)) this.release(previous);
     this.latest.set(photo);
     this.saved.set(false);
+    // Request the export as soon as the JPEG is ready, before waiting for IndexedDB.
+    let downloadRequested = false;
+    if (this.android) {
+      try {
+        this.downloadFile(photo);
+        downloadRequested = true;
+      } catch {
+        // Keep the local save and manual export available if the browser rejects the request.
+      }
+    }
     try {
       await this.store.save(photo);
       if (this.destroyed) return;
       this.photos.update((all) => [photo, ...all]);
       this.saved.set(true);
-      this.message.set('Photo enregistrée sur cet appareil ✓');
+      this.message.set(
+        downloadRequested
+          ? 'Photo enregistrée dans l’application ✓ Téléchargement JPEG demandé : consultez Fichiers → Téléchargements.'
+          : this.android
+            ? 'Photo enregistrée dans l’application. Utilisez Télécharger pour conserver une copie sur le téléphone.'
+            : 'Photo enregistrée sur cet appareil ✓',
+      );
     } catch {
       this.message.set(
-        'Stockage plein ou indisponible. La photo reste visible ci-dessous : téléchargez-la pour la conserver.',
+        downloadRequested
+          ? 'Stockage de l’application indisponible. Téléchargement JPEG demandé : vérifiez Fichiers → Téléchargements pour conserver votre photo.'
+          : 'Stockage plein ou indisponible. La photo reste visible ci-dessous : téléchargez-la pour la conserver.',
       );
     }
   }
   download(photo: ViewPhoto) {
+    if (this.ios) {
+      void this.share(photo);
+      return;
+    }
+    this.downloadFile(photo);
+  }
+  private downloadFile(photo: ViewPhoto) {
     const a = document.createElement('a');
     a.href = photo.url;
     a.download = 'pwa-pocket-' + photo.created + '.jpg';
@@ -299,17 +371,32 @@ export class Photos implements OnInit, OnDestroy {
     const file = new File([photo.blob], 'pwa-pocket-' + photo.created + '.jpg', {
       type: 'image/jpeg',
     });
-    if (!navigator.canShare?.({ files: [file] })) {
-      this.download(photo);
-      this.message.set('Le partage est indisponible ici. Téléchargement proposé à la place.');
-      return;
-    }
     try {
-      await navigator.share({ files: [file], title: 'Mon instant PWA Pocket' });
+      if (!navigator.share || !navigator.canShare?.({ files: [file] })) {
+        if (this.ios) this.showExportFallback(photo);
+        else {
+          this.downloadFile(photo);
+          this.message.set('Le partage est indisponible ici. Téléchargement proposé à la place.');
+        }
+        return;
+      }
+      // Keep this call synchronous with the tap: iOS requires transient user activation.
+      await navigator.share({ files: [file] });
+      this.message.set(
+        'Feuille de partage fermée. La destination choisie gère l’enregistrement de la photo.',
+      );
     } catch (e) {
-      if (!(e instanceof DOMException && e.name === 'AbortError'))
-        this.message.set('Partage impossible. Utilisez le bouton Télécharger.');
+      if (e instanceof DOMException && e.name === 'AbortError') {
+        this.message.set('Partage annulé. Votre photo reste dans la galerie.');
+        return;
+      }
+      if (this.ios) this.showExportFallback(photo);
+      else this.message.set('Partage impossible. Utilisez le bouton Télécharger.');
     }
+  }
+  private showExportFallback(photo: ViewPhoto) {
+    this.exportFallback.set(photo);
+    this.exportDialog.nativeElement.showModal();
   }
   async remove() {
     const p = this.pendingDelete();
