@@ -3,76 +3,74 @@ import { DatePipe, DecimalPipe } from '@angular/common';
 import { Network } from '../core/network';
 import { WeatherApi, WeatherData, weatherLabel } from '../core/weather';
 import { locate, errorMessage } from '../core/device';
+import { t } from '../core/i18n';
 @Component({
   selector: 'app-weather',
   imports: [DatePipe, DecimalPipe],
   template: `
     <header class="page-heading">
-      <span class="eyebrow">04 / MÉTÉO</span>
-      <h1>Et dehors,<br /><em>ça donne quoi ?</em></h1>
-      <p>Un aperçu du temps, exactement là où vous êtes.</p>
+      <span class="eyebrow">{{ t('weather.eyebrow') }}</span>
+      <h1>{{ t('weather.title.line1') }}<br /><em>{{ t('weather.title.emphasis') }}</em></h1>
+      <p>{{ t('weather.intro') }}</p>
     </header>
     <section class="weather-panel">
       @if (!network.online()) {
         <div class="empty-state">
           <span class="large-symbol">☁</span>
-          <h2>La météo fait une pause.</h2>
-          <p>Connectez-vous à Internet pour consulter la météo.</p>
-          <button class="secondary" (click)="network.check()">Vérifier la connexion</button>
+          <h2>{{ t('weather.offline.title') }}</h2>
+          <p>{{ t('weather.offline.text') }}</p>
+          <button class="secondary" (click)="network.check()">{{ t('weather.offline.button') }}</button>
         </div>
       } @else {
         @if (data(); as w) {
           <div class="weather-result">
             <div>
-              <span class="eyebrow">AUTOUR DE VOUS</span>
+              <span class="eyebrow">{{ t('weather.result.eyebrow') }}</span>
               <h2>{{ label(w.weather_code) }}</h2>
               <p>{{ positionLabel() }}</p>
               <p class="temperature">{{ w.temperature_2m | number: '1.0-1' }}<span>°C</span></p>
-              <p>Données du {{ w.time * 1000 | date: 'dd/MM à HH:mm' }}</p>
+              <p>{{ t('weather.result.dataDate') }} {{ w.time * 1000 | date: 'dd/MM · HH:mm' }}</p>
             </div>
             <div class="weather-sun" aria-hidden="true">{{ w.weather_code === 0 ? '☀' : '☁' }}</div>
           </div>
           <dl class="weather-metrics">
             <div>
-              <dt>Ressenti</dt>
+              <dt>{{ t('weather.metrics.feelsLike') }}</dt>
               <dd>{{ w.apparent_temperature | number: '1.0-1' }} °C</dd>
             </div>
             <div>
-              <dt>Humidité</dt>
+              <dt>{{ t('weather.metrics.humidity') }}</dt>
               <dd>{{ w.relative_humidity_2m }} %</dd>
             </div>
             <div>
-              <dt>Vent</dt>
+              <dt>{{ t('weather.metrics.wind') }}</dt>
               <dd>{{ w.wind_speed_10m | number: '1.0-1' }} km/h</dd>
             </div>
           </dl>
         } @else {
           <div class="empty-state">
             <span class="large-symbol">☀</span>
-            <h2>Une petite fenêtre sur le ciel.</h2>
-            <p>Autorisez votre position pour découvrir la météo locale.</p>
+            <h2>{{ t('weather.empty.title') }}</h2>
+            <p>{{ t('weather.empty.text') }}</p>
           </div>
         }
         <div class="weather-action">
           <button class="primary" (click)="refresh()" [disabled]="busy()">
             {{
               busy()
-                ? 'Recherche en cours…'
+                ? t('weather.button.busy')
                 : data()
-                  ? 'Actualiser la météo ↻'
-                  : 'Voir la météo ici ↗'
+                  ? t('weather.button.refresh')
+                  : t('weather.button.view')
             }}
           </button>
           <p class="status" role="status">{{ message() }}</p>
         </div>
       }
     </section>
-    <p class="hint">
-      Votre position est transmise à Open-Meteo uniquement lorsque vous demandez la météo. Aucune
-      position n’est enregistrée.
-    </p>
+    <p class="hint">{{ t('weather.hint') }}</p>
     <p class="fine-print">
-      Données :
+      {{ t('weather.finePrintPrefix') }}
       <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo</a> ·
       <a
         href="https://creativecommons.org/licenses/by/4.0/"
@@ -80,11 +78,12 @@ import { locate, errorMessage } from '../core/device';
         rel="noopener noreferrer"
         >CC BY 4.0</a
       >
-      · Démonstration non commerciale.
+      {{ t('weather.finePrintSuffix') }}
     </p>
   `,
 })
 export class WeatherPage {
+  t = t;
   network = inject(Network);
   api = inject(WeatherApi);
   data = signal<WeatherData | null>(null);
@@ -108,7 +107,7 @@ export class WeatherPage {
         this.message.set(
           errorMessage(e).includes('fetch') ||
             (e instanceof DOMException && e.name === 'TimeoutError')
-            ? 'Le service météo ne répond pas. Réessayez dans un instant.'
+            ? t('weather.msg.serviceDown')
             : errorMessage(e),
         );
     } finally {

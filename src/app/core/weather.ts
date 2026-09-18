@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { t } from './i18n';
 export interface WeatherData {
   temperature_2m: number;
   apparent_temperature: number;
@@ -19,7 +20,7 @@ export class WeatherApi {
       timeformat: 'unixtime',
     }).toString();
     const res = await fetch(url, { signal: AbortSignal.timeout(12000), cache: 'no-store' });
-    if (!res.ok) throw new Error('Le service météo est momentanément indisponible. Réessayez.');
+    if (!res.ok) throw new Error(t('weatherApi.serviceDown'));
     const data = (await res.json()).current;
     if (
       !data ||
@@ -32,18 +33,18 @@ export class WeatherApi {
         'time',
       ].every((k) => typeof data[k] === 'number' && Number.isFinite(data[k]))
     ) {
-      throw new Error('Le service météo a renvoyé des données incomplètes.');
+      throw new Error(t('weatherApi.incompleteData'));
     }
     return data;
   }
 }
 export function weatherLabel(code: number): string {
-  if (code === 0) return 'Ciel dégagé';
-  if (code <= 3) return 'Passages nuageux';
-  if (code <= 48) return 'Brouillard';
-  if (code <= 67) return 'Pluie et bruine';
-  if (code <= 77) return 'Neige';
-  if (code <= 82) return 'Averses';
-  if (code <= 86) return 'Averses de neige';
-  return 'Orages';
+  if (code === 0) return t('weather.code.clear');
+  if (code <= 3) return t('weather.code.cloudy');
+  if (code <= 48) return t('weather.code.fog');
+  if (code <= 67) return t('weather.code.rain');
+  if (code <= 77) return t('weather.code.snow');
+  if (code <= 82) return t('weather.code.showers');
+  if (code <= 86) return t('weather.code.snowShowers');
+  return t('weather.code.storm');
 }

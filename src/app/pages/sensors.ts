@@ -1,56 +1,58 @@
 import { Component, OnDestroy, signal } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { locate, errorMessage } from '../core/device';
+import { t } from '../core/i18n';
 type OrientationAPI = typeof DeviceOrientationEvent & { requestPermission?: () => Promise<string> };
 @Component({
   selector: 'app-sensors',
   imports: [DecimalPipe],
   template: `
     <header class="page-heading">
-      <span class="eyebrow">02 / CAPTEURS</span>
-      <h1>À vous de<br /><em>faire bouger les choses.</em></h1>
-      <p>Votre position, votre altitude et un niveau à bulle. Le monde réel rencontre le web.</p>
+      <span class="eyebrow">{{ t('sensors.eyebrow') }}</span>
+      <h1>{{ t('sensors.title.line1') }}<br /><em>{{ t('sensors.title.emphasis') }}</em></h1>
+      <p>{{ t('sensors.intro') }}</p>
     </header>
     <div class="two-col">
       <section class="card">
         <span class="feature-icon blue">⌖</span>
-        <h2>Vous êtes ici.</h2>
-        <p>Votre position reste sur cet appareil. Aucun suivi en arrière-plan.</p>
+        <h2>{{ t('sensors.location.title') }}</h2>
+        <p>{{ t('sensors.location.text') }}</p>
         <button class="primary" (click)="position()" [disabled]="locating()">
-          {{ locating() ? 'Recherche en cours…' : 'Obtenir ma position' }}
+          {{ locating() ? t('sensors.location.buttonBusy') : t('sensors.location.buttonIdle') }}
         </button>
         <p role="status" class="status">{{ locationMessage() }}</p>
         @if (coords(); as c) {
           <dl class="metrics">
             <div>
-              <dt>Latitude</dt>
+              <dt>{{ t('sensors.location.latitude') }}</dt>
               <dd>{{ c.latitude | number: '1.5-5' }}°</dd>
             </div>
             <div>
-              <dt>Longitude</dt>
+              <dt>{{ t('sensors.location.longitude') }}</dt>
               <dd>{{ c.longitude | number: '1.5-5' }}°</dd>
             </div>
             <div>
-              <dt>Précision</dt>
+              <dt>{{ t('sensors.location.accuracy') }}</dt>
               <dd>± {{ c.accuracy | number: '1.0-0' }} m</dd>
             </div>
             <div>
-              <dt>Altitude</dt>
+              <dt>{{ t('sensors.location.altitude') }}</dt>
               <dd>
-                {{ c.altitude === null ? 'Indisponible' : (c.altitude | number: '1.0-0') + ' m' }}
+                {{
+                  c.altitude === null
+                    ? t('sensors.location.altitudeUnavailable')
+                    : (c.altitude | number: '1.0-0') + ' m'
+                }}
               </dd>
             </div>
           </dl>
         }
-        <p class="hint">
-          Le GPS peut fonctionner sans Internet, mais la recherche de position peut être plus lente
-          ou indisponible.
-        </p>
+        <p class="hint">{{ t('sensors.location.hint') }}</p>
       </section>
       <section class="card">
         <span class="feature-icon mint">⊕</span>
-        <h2>Trouvez l’équilibre.</h2>
-        <p>Posez le téléphone à plat, puis inclinez-le doucement.</p>
+        <h2>{{ t('sensors.tilt.title') }}</h2>
+        <p>{{ t('sensors.tilt.text') }}</p>
         <div class="bubble-level" aria-hidden="true">
           <div class="level-ring"></div>
           <div
@@ -60,15 +62,15 @@ type OrientationAPI = typeof DeviceOrientationEvent & { requestPermission?: () =
         </div>
         <div class="angle-values">
           <span
-            >Avant / arrière
+            >{{ t('sensors.tilt.frontBack') }}
             <strong>{{ beta() === null ? '—' : (beta() | number: '1.0-0') + '°' }}</strong></span
           ><span
-            >Gauche / droite
+            >{{ t('sensors.tilt.leftRight') }}
             <strong>{{ gamma() === null ? '—' : (gamma() | number: '1.0-0') + '°' }}</strong></span
           >
         </div>
         <button class="primary" (click)="active() ? stop() : start()" [disabled]="requesting()">
-          {{ active() ? 'Arrêter le capteur' : 'Activer l’inclinaison' }}
+          {{ active() ? t('sensors.tilt.buttonStop') : t('sensors.tilt.buttonStart') }}
         </button>
         <p role="status" class="status">{{ orientationMessage() }}</p>
       </section>
@@ -76,6 +78,7 @@ type OrientationAPI = typeof DeviceOrientationEvent & { requestPermission?: () =
   `,
 })
 export class Sensors implements OnDestroy {
+  t = t;
   coords = signal<GeolocationCoordinates | null>(null);
   locating = signal(false);
   locationMessage = signal('');
@@ -115,38 +118,32 @@ export class Sensors implements OnDestroy {
     clearTimeout(this.timer);
     this.beta.set(e.beta);
     this.gamma.set(e.gamma);
-    this.orientationMessage.set('Capteur actif. À vous de bouger !');
+    this.orientationMessage.set(t('sensors.status.active'));
   };
   async start() {
     if (typeof DeviceOrientationEvent === 'undefined') {
-      this.orientationMessage.set(
-        'Ce navigateur ne propose pas de capteur d’inclinaison. Essayez sur un téléphone.',
-      );
+      this.orientationMessage.set(t('sensors.status.unsupported'));
       return;
     }
     this.requesting.set(true);
     try {
       const api = DeviceOrientationEvent as OrientationAPI;
       if (api.requestPermission && (await api.requestPermission()) !== 'granted') {
-        this.orientationMessage.set(
-          'Accès aux mouvements refusé. Vérifiez les autorisations du navigateur.',
-        );
+        this.orientationMessage.set(t('sensors.status.permissionDenied'));
         return;
       }
       if (this.destroyed) return;
       this.active.set(true);
       this.beta.set(null);
       this.gamma.set(null);
-      this.orientationMessage.set('En attente du capteur…');
+      this.orientationMessage.set(t('sensors.status.waiting'));
       window.addEventListener('deviceorientation', this.handler);
       this.timer = setTimeout(() => {
         this.stop();
-        this.orientationMessage.set(
-          'Aucune mesure reçue. Le capteur peut être absent ou bloqué sur cet appareil.',
-        );
+        this.orientationMessage.set(t('sensors.status.timeout'));
       }, 5000);
     } catch {
-      this.orientationMessage.set('Impossible d’activer le capteur. Vérifiez les autorisations.');
+      this.orientationMessage.set(t('sensors.status.activationError'));
     } finally {
       this.requesting.set(false);
     }
@@ -155,7 +152,7 @@ export class Sensors implements OnDestroy {
     clearTimeout(this.timer);
     window.removeEventListener('deviceorientation', this.handler);
     this.active.set(false);
-    this.orientationMessage.set('Capteur arrêté.');
+    this.orientationMessage.set(t('sensors.status.stopped'));
   }
   ngOnDestroy() {
     this.destroyed = true;

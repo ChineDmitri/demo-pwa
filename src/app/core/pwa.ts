@@ -1,5 +1,6 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
+import { t } from './i18n';
 interface InstallPrompt extends Event {
   prompt(): Promise<void>;
   userChoice: Promise<{ outcome: string }>;
@@ -71,27 +72,25 @@ export class Pwa {
 }
 export async function testNotification(): Promise<string> {
   if (!('Notification' in window) || !('serviceWorker' in navigator)) {
-    return 'Notifications système indisponibles ici. Sur iPhone, ajoutez cette application à l’écran d’accueil puis ouvrez-la depuis son icône.';
+    return t('pwa.notif.unsupported');
   }
   try {
     const permission =
       Notification.permission === 'default'
         ? await Notification.requestPermission()
         : Notification.permission;
-    if (permission !== 'granted')
-      return 'Notifications non autorisées. Vous pouvez modifier ce choix dans les réglages du navigateur.';
+    if (permission !== 'granted') return t('pwa.notif.permissionDenied');
     const registration = await navigator.serviceWorker.getRegistration(
       new URL('.', document.baseURI).href,
     );
-    if (!registration?.active)
-      return 'Le mode PWA se prépare. Rechargez la version publiée puis réessayez.';
-    await registration.showNotification('Un petit bonjour de PWA Pocket 👋', {
-      body: 'Une notification depuis votre application web. Simple comme un clic !',
+    if (!registration?.active) return t('pwa.notif.swPreparing');
+    await registration.showNotification(t('pwa.notif.title'), {
+      body: t('pwa.notif.body'),
       icon: new URL('icons/icon-192x192.png', document.baseURI).href,
       tag: 'pwa-pocket-demo',
     });
-    return 'Notification système envoyée. Son affichage dépend aussi des réglages du téléphone (mode silencieux, concentration…).';
+    return t('pwa.notif.sent');
   } catch {
-    return 'Ce navigateur ne permet pas ce test. Sur iPhone, essayez depuis l’application ajoutée à l’écran d’accueil.';
+    return t('pwa.notif.testFailed');
   }
 }

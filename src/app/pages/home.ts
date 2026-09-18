@@ -1,156 +1,154 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Pwa } from '../core/pwa';
+import { t } from '../core/i18n';
 @Component({
   selector: 'app-home',
   imports: [RouterLink],
   template: `
     <section class="hero">
       <div class="hero-copy">
-        <span class="eyebrow"
-          ><span class="live-dot"></span> UNE APPLICATION. PLEIN DE POSSIBILITÉS.</span
-        >
-        <h1>Tout un monde.<br />Dans votre <em>poche.</em></h1>
-        <p>
-          Un lien suffit. Découvrez une application qui s’installe, prend des photos et vous
-          accompagne même sans réseau.
-        </p>
+        <span class="eyebrow"><span class="live-dot"></span> {{ t('home.eyebrow') }}</span>
+        <h1>
+          {{ t('home.title.line1') }}<br />{{ t('home.title.line2Pre') }}<em>{{
+            t('home.title.line2Em')
+          }}</em>
+        </h1>
+        <p>{{ t('home.intro') }}</p>
         <div class="actions">
           <a class="button primary" routerLink="/decouvrir"
-            >C’est parti <span aria-hidden="true">↗</span></a
+            >{{ t('home.cta.start') }} <span aria-hidden="true">↗</span></a
           ><a class="button ghost" href="#installation" (click)="showInstall($event)"
-            >Comment l’installer ? <span aria-hidden="true">↓</span></a
+            >{{ t('home.cta.install') }} <span aria-hidden="true">↓</span></a
           >
         </div>
         <div class="hero-proof">
-          <span>✓ Sans store</span><span>✓ iPhone & Android</span><span>✓ Même hors ligne</span>
+          <span>{{ t('home.proof.noStore') }}</span><span>{{ t('home.proof.devices') }}</span
+          ><span>{{ t('home.proof.offline') }}</span>
         </div>
       </div>
       <div class="hero-art" aria-hidden="true">
         <div class="orbit orbit-one"></div>
         <div class="orbit orbit-two"></div>
-        <div class="float-tag tag-top"><span class="tiny-icon">↧</span> Prête à emporter</div>
+        <div class="float-tag tag-top">
+          <span class="tiny-icon">↧</span> {{ t('home.phone.tagTop') }}
+        </div>
         <div class="demo-phone">
           <div class="phone-notch"></div>
           <div class="phone-header">
-            <span class="brand-symbol">p.</span><b>Bonjour, vous.</b
-            ><small>Votre quotidien, en plus simple.</small>
+            <span class="brand-symbol">p.</span><b>{{ t('home.phone.greeting') }}</b
+            ><small>{{ t('home.phone.subtitle') }}</small>
           </div>
           <div class="phone-weather">
             <span>☀</span>
-            <div><strong>24°</strong><small>Un air de liberté</small></div>
+            <div><strong>24°</strong><small>{{ t('home.phone.weatherNote') }}</small></div>
           </div>
           <div class="phone-tiles">
-            <div>⌖<small>Explorer</small></div>
-            <div>▣<small>Capturer</small></div>
+            <div>⌖<small>{{ t('home.phone.tileExplore') }}</small></div>
+            <div>▣<small>{{ t('home.phone.tileCapture') }}</small></div>
           </div>
-          <div class="phone-offline"><span class="live-dot"></span> Disponible hors ligne</div>
+          <div class="phone-offline">
+            <span class="live-dot"></span> {{ t('home.phone.offline') }}
+          </div>
           <div class="phone-bar"></div>
         </div>
         <div class="float-tag tag-bottom">
           <span class="tiny-icon mint">✓</span>
-          <div>100 % web<small>L’expérience d’une app.</small></div>
+          <div>{{ t('home.phone.tagBottomTitle') }}<small>{{ t('home.phone.tagBottomNote') }}</small></div>
         </div>
-        <span class="art-note">Une démo à toucher du doigt.</span>
+        <span class="art-note">{{ t('home.phone.artNote') }}</span>
       </div>
     </section>
     <section class="section-heading">
       <div>
-        <span class="eyebrow">À VOUS DE JOUER</span>
-        <h2>Votre téléphone a du talent.</h2>
+        <span class="eyebrow">{{ t('home.playSection.eyebrow') }}</span>
+        <h2>{{ t('home.playSection.title') }}</h2>
       </div>
-      <p>Testez ses possibilités, une à une.</p>
+      <p>{{ t('home.playSection.subtitle') }}</p>
     </section>
     <div class="feature-grid">
       <a class="feature-card" routerLink="/capteurs"
         ><span class="feature-icon blue">⌖</span><span class="card-arrow">↗</span>
-        <h3>Gardez le cap</h3>
-        <p>Votre position et un niveau à bulle qui suit vos mouvements.</p>
-        <span class="card-link">Explorer les capteurs</span></a
+        <h3>{{ t('home.card.sensors.title') }}</h3>
+        <p>{{ t('home.card.sensors.text') }}</p>
+        <span class="card-link">{{ t('home.card.sensors.link') }}</span></a
       >
       <a class="feature-card" routerLink="/photos"
         ><span class="feature-icon mint">▣</span><span class="card-arrow">↗</span>
-        <h3>Capturez l’instant</h3>
-        <p>Prenez une photo. Retrouvez-la ici, même en mode avion.</p>
-        <span class="card-link">Ouvrir la caméra</span></a
+        <h3>{{ t('home.card.photos.title') }}</h3>
+        <p>{{ t('home.card.photos.text') }}</p>
+        <span class="card-link">{{ t('home.card.photos.link') }}</span></a
       >
       <a class="feature-card" routerLink="/meteo"
         ><span class="feature-icon peach">☀</span><span class="card-arrow">↗</span>
-        <h3>Prenez l’air</h3>
-        <p>La météo là où vous êtes. Juste ce qu’il faut pour sortir.</p>
-        <span class="card-link">Consulter la météo</span></a
+        <h3>{{ t('home.card.weather.title') }}</h3>
+        <p>{{ t('home.card.weather.text') }}</p>
+        <span class="card-link">{{ t('home.card.weather.link') }}</span></a
       >
     </div>
     <section class="offline-callout">
       <span class="callout-icon" aria-hidden="true">↯</span>
       <div>
-        <span class="eyebrow">LE RÉSEAU S’ARRÊTE. PAS VOTRE APPLICATION.</span>
-        <h2>Et si vous passiez en mode avion ?</h2>
-        <p>
-          Après le premier chargement complet, les pages et vos photos restent disponibles. Faites
-          le test !
-        </p>
+        <span class="eyebrow">{{ t('home.offline.eyebrow') }}</span>
+        <h2>{{ t('home.offline.title') }}</h2>
+        <p>{{ t('home.offline.text') }}</p>
       </div>
       <span class="pill" [class.muted]="!pwa.offlineReady()">{{
-        pwa.offlineReady() ? '✓ Prête hors ligne' : 'Préparation hors ligne…'
+        pwa.offlineReady() ? t('home.offline.ready') : t('home.offline.preparing')
       }}</span>
     </section>
-    <p class="capability-heading">Les possibilités de votre navigateur</p>
+    <p class="capability-heading">{{ t('home.capabilityHeading') }}</p>
     <div class="capability-list">
-      @for (cap of capabilities; track cap.label) {
+      @for (cap of capabilities; track cap.key) {
         <span
-          ><b>{{ cap.label }}</b> {{ cap.available ? 'À tester ✓' : 'Non disponible ici' }}</span
+          ><b>{{ t('home.capability.' + cap.key) }}</b>
+          {{ cap.available ? t('home.capability.available') : t('home.capability.unavailable') }}</span
         >
       }
     </div>
     <section id="installation" class="install-section">
       <div class="section-heading">
         <div>
-          <span class="eyebrow">UNE PLACE SUR VOTRE ÉCRAN</span>
-          <h2>Installez-la en quelques gestes.</h2>
+          <span class="eyebrow">{{ t('home.install.eyebrow') }}</span>
+          <h2>{{ t('home.install.title') }}</h2>
         </div>
         @if (pwa.installed()) {
-          <span class="pill">✓ Application installée</span>
+          <span class="pill">{{ t('home.install.installedPill') }}</span>
         }
       </div>
       @if (pwa.installPrompt()) {
-        <button class="primary" (click)="pwa.install()">Installer PWA Pocket ↧</button>
+        <button class="primary" (click)="pwa.install()">{{ t('home.install.installButton') }}</button>
       }
       <div class="two-col">
         <article class="card">
-          <h3>Sur iPhone ou iPad</h3>
+          <h3>{{ t('home.install.ios.title') }}</h3>
           <ol>
-            <li>Ouvrez ce site dans Safari.</li>
-            <li>Touchez <strong>Partager</strong>, puis <strong>Sur l’écran d’accueil</strong>.</li>
-            <li>Confirmez l’ajout, puis ouvrez l’application depuis son icône.</li>
+            <li>{{ t('home.install.ios.step1') }}</li>
+            <li [innerHTML]="t('home.install.ios.step2')"></li>
+            <li>{{ t('home.install.ios.step3') }}</li>
           </ol>
         </article>
         <article class="card">
-          <h3>Sur Android</h3>
+          <h3>{{ t('home.install.android.title') }}</h3>
           <ol>
-            <li>Ouvrez ce site dans Chrome.</li>
-            <li>Touchez <strong>Installer</strong> si le bouton apparaît, ou le menu ⋮.</li>
-            <li>
-              Choisissez <strong>Installer l’application</strong> ou
-              <strong>Ajouter à l’écran d’accueil</strong>.
-            </li>
+            <li>{{ t('home.install.android.step1') }}</li>
+            <li [innerHTML]="t('home.install.android.step2')"></li>
+            <li [innerHTML]="t('home.install.android.step3')"></li>
           </ol>
         </article>
       </div>
     </section>
-    <p class="fine-print">
-      Les fonctionnalités dépendent de votre appareil et de ses autorisations. Illustration météo
-      fictive dans le téléphone ci-dessus.
-    </p>
+    <p class="fine-print">{{ t('home.finePrint') }}</p>
   `,
 })
 export class Home {
+  t = t;
   pwa = inject(Pwa);
   capabilities = [
-    { label: 'Position', available: 'geolocation' in navigator },
-    { label: 'Caméra', available: !!navigator.mediaDevices?.getUserMedia },
-    { label: 'Inclinaison', available: typeof DeviceOrientationEvent !== 'undefined' },
-    { label: 'Notifications', available: 'Notification' in window && 'serviceWorker' in navigator },
+    { key: 'position', available: 'geolocation' in navigator },
+    { key: 'camera', available: !!navigator.mediaDevices?.getUserMedia },
+    { key: 'orientation', available: typeof DeviceOrientationEvent !== 'undefined' },
+    { key: 'notifications', available: 'Notification' in window && 'serviceWorker' in navigator },
   ];
   showInstall(e: Event) {
     e.preventDefault();

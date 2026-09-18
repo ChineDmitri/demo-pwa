@@ -1,25 +1,20 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild, inject, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { PhotosStore, Photo } from '../core/photos-store';
+import { t } from '../core/i18n';
 type ViewPhoto = Photo & { url: string };
 @Component({
   selector: 'app-photos',
   imports: [DatePipe],
   template: `
     <header class="page-heading">
-      <span class="eyebrow">03 / PHOTOS</span>
-      <h1>Les petits instants.<br /><em>Gardez-les ici.</em></h1>
-      <p>
-        Chaque photo est automatiquement enregistrée dans la galerie de l’application, même sans
-        Internet.
-      </p>
+      <span class="eyebrow">{{ t('photos.eyebrow') }}</span>
+      <h1>{{ t('photos.title.line1') }}<br /><em>{{ t('photos.title.emphasis') }}</em></h1>
+      <p>{{ t('photos.intro') }}</p>
     </header>
     <section class="card camera-card">
       @if (android) {
-        <p class="hint">
-          Sur Android, chaque capture déclenche aussi un téléchargement JPEG. Retrouvez la copie
-          dans Fichiers → Téléchargements.
-        </p>
+        <p class="hint">{{ t('photos.androidHint') }}</p>
       }
       <div class="camera-preview">
         <video
@@ -33,29 +28,29 @@ type ViewPhoto = Photo & { url: string };
         @if (!streaming()) {
           <div class="camera-placeholder">
             <span class="large-symbol">▣</span>
-            <h2>À vous de cadrer.</h2>
-            <p>Activez la caméra pour prendre votre première photo.</p>
+            <h2>{{ t('photos.placeholder.title') }}</h2>
+            <p>{{ t('photos.placeholder.text') }}</p>
           </div>
         }
       </div>
       <div class="camera-controls">
         @if (!streaming()) {
           <button class="primary" (click)="startCamera()" [disabled]="busy()">
-            Activer la caméra
+            {{ t('photos.button.startCamera') }}
           </button>
         } @else {
           <button class="primary" (click)="capture()" [disabled]="busy() || !videoReady()">
-            Prendre une photo</button
-          ><button class="secondary" (click)="stopCamera()">Arrêter la caméra</button>
+            {{ t('photos.button.capture') }}</button
+          ><button class="secondary" (click)="stopCamera()">{{ t('photos.button.stopCamera') }}</button>
         }
         <label class="button secondary file-button"
-          >Choisir / prendre une photo<input
+          >{{ t('photos.button.chooseFile') }}<input
             type="file"
             accept="image/*"
             capture="environment"
             (change)="importPhoto($event)"
             [disabled]="busy()"
-            aria-label="Choisir ou prendre une photo"
+            [attr.aria-label]="t('photos.chooseFileAria')"
         /></label>
       </div>
       <p class="status" role="status">{{ message() }}</p>
@@ -63,44 +58,37 @@ type ViewPhoto = Photo & { url: string };
     @if (latest(); as photo) {
       <section class="card latest-photo">
         <div>
-          <span class="eyebrow">VOTRE DERNIÈRE PHOTO</span>
-          <h2>Bien capturé.</h2>
+          <span class="eyebrow">{{ t('photos.latest.eyebrow') }}</span>
+          <h2>{{ t('photos.latest.title') }}</h2>
           <p>
-            {{
-              saved()
-                ? 'Enregistrée automatiquement dans la galerie de cette application.'
-                : 'Photo non enregistrée : exportez-la pour la conserver.'
-            }}
+            {{ saved() ? t('photos.latest.savedText') : t('photos.latest.unsavedText') }}
           </p>
           <div class="actions">
             <button class="primary" (click)="download(photo)">
-              {{ ios ? 'Enregistrer sur l’iPhone / iPad' : 'Télécharger' }}</button
-            ><button class="secondary" (click)="share(photo)">Partager / enregistrer</button>
+              {{ ios ? t('photos.latest.downloadIos') : t('photos.latest.downloadOther') }}</button
+            ><button class="secondary" (click)="share(photo)">{{ t('photos.latest.share') }}</button>
           </div>
         </div>
-        <img [src]="photo.url" alt="Dernière photo capturée" />
+        <img [src]="photo.url" [attr.alt]="t('photos.latest.imgAlt')" />
       </section>
     }
     @if (ios) {
-      <p class="hint">
-        Pour conserver une photo dans Photos, touchez « Enregistrer », puis « Enregistrer l’image »
-        dans la feuille de partage. « Enregistrer dans Fichiers » conserve une copie dans Fichiers.
-      </p>
+      <p class="hint">{{ t('photos.iosHint') }}</p>
     }
     <div class="section-heading">
       <div>
-        <span class="eyebrow">VOS SOUVENIRS DE POCHE</span>
+        <span class="eyebrow">{{ t('photos.gallery.eyebrow') }}</span>
         <h2>
-          Ma galerie <span class="count">{{ photos().length }}</span>
+          {{ t('photos.gallery.title') }} <span class="count">{{ photos().length }}</span>
         </h2>
       </div>
-      <span class="pill">Sur cet appareil</span>
+      <span class="pill">{{ t('photos.gallery.pill') }}</span>
     </div>
     @if (!photos().length) {
       <div class="empty-gallery">
         <span class="feature-icon mint">▧</span>
-        <h3>Tout commence par une photo.</h3>
-        <p>Vos images apparaîtront ici et resteront accessibles hors ligne.</p>
+        <h3>{{ t('photos.empty.title') }}</h3>
+        <p>{{ t('photos.empty.text') }}</p>
       </div>
     }
     <div class="gallery">
@@ -109,9 +97,9 @@ type ViewPhoto = Photo & { url: string };
           <button
             class="photo-open"
             (click)="selected.set(photo); viewer.showModal()"
-            aria-label="Agrandir la photo"
+            [attr.aria-label]="t('photos.item.openAria')"
           >
-            <img [src]="photo.url" alt="Photo de votre galerie" loading="lazy" />
+            <img [src]="photo.url" [attr.alt]="t('photos.item.imgAlt')" loading="lazy" />
           </button>
           <div class="gallery-meta">
             <time>{{ photo.created | date: 'dd/MM/yyyy · HH:mm' }}</time>
@@ -120,16 +108,20 @@ type ViewPhoto = Photo & { url: string };
                 class="icon-button"
                 (click)="download(photo)"
                 [attr.aria-label]="
-                  ios ? 'Enregistrer cette photo sur l’iPhone / iPad' : 'Télécharger cette photo'
+                  ios ? t('photos.item.downloadIosAria') : t('photos.item.downloadOtherAria')
                 "
               >
                 ↓</button
-              ><button class="icon-button" (click)="share(photo)" aria-label="Partager cette photo">
+              ><button
+                class="icon-button"
+                (click)="share(photo)"
+                [attr.aria-label]="t('photos.item.shareAria')"
+              >
                 ↗</button
               ><button
                 class="icon-button"
                 (click)="pendingDelete.set(photo); confirmation.showModal()"
-                aria-label="Supprimer cette photo"
+                [attr.aria-label]="t('photos.item.deleteAria')"
               >
                 ×
               </button>
@@ -138,61 +130,59 @@ type ViewPhoto = Photo & { url: string };
         </article>
       }
     </div>
-    <p class="hint">
-      Vos photos restent dans le stockage de ce navigateur. Celui-ci peut être effacé par le système
-      ou dans vos réglages. Exportez les images à conserver ; l’enregistrement dans Photos ou
-      Fichiers dépend de votre téléphone.
-    </p>
-    <dialog #viewer class="photo-dialog" aria-label="Aperçu de la photo">
-      <button class="icon-button close-photo" aria-label="Fermer l’aperçu" (click)="viewer.close()">
+    <p class="hint">{{ t('photos.storageHint') }}</p>
+    <dialog #viewer class="photo-dialog" [attr.aria-label]="t('photos.viewer.aria')">
+      <button
+        class="icon-button close-photo"
+        [attr.aria-label]="t('photos.viewer.closeAria')"
+        (click)="viewer.close()"
+      >
         ×
       </button>
       @if (selected(); as p) {
-        <img [src]="p.url" alt="Photo agrandie" /><button class="primary" (click)="share(p)">
-          Partager / enregistrer
+        <img [src]="p.url" [attr.alt]="t('photos.viewer.imgAlt')" /><button
+          class="primary"
+          (click)="share(p)"
+        >
+          {{ t('photos.viewer.share') }}
         </button>
       }
     </dialog>
     <dialog #exportDialog aria-labelledby="export-title">
       <button
         class="icon-button"
-        aria-label="Fermer l’enregistrement"
+        [attr.aria-label]="t('photos.export.closeAria')"
         (click)="exportDialog.close()"
       >
         ×
       </button>
-      <h2 id="export-title">Enregistrer votre photo</h2>
-      <p role="status">
-        La feuille de partage n’est pas disponible. Maintenez le doigt sur l’image ci-dessous, puis
-        choisissez « Enregistrer l’image » si cette option est proposée.
-      </p>
+      <h2 id="export-title">{{ t('photos.export.title') }}</h2>
+      <p role="status">{{ t('photos.export.status') }}</p>
       @if (exportFallback(); as photo) {
         <img
           class="export-image"
           data-allow-save
           [src]="photo.url"
-          alt="Photo à enregistrer dans Photos"
+          [attr.alt]="t('photos.export.imgAlt')"
         />
       }
-      <p class="hint">
-        Votre photo reste disponible dans la galerie de l’application. Si aucun menu n’apparaît,
-        réessayez le partage dans Safari.
-      </p>
+      <p class="hint">{{ t('photos.export.hint') }}</p>
     </dialog>
     <dialog #confirmation aria-labelledby="delete-title">
-      <h2 id="delete-title">Supprimer cette photo ?</h2>
-      <p>
-        Elle sera retirée de la galerie de cette application. Les copies déjà exportées seront
-        conservées.
-      </p>
+      <h2 id="delete-title">{{ t('photos.confirm.title') }}</h2>
+      <p>{{ t('photos.confirm.text') }}</p>
       <div class="actions">
-        <button class="secondary" autofocus (click)="confirmation.close()">Annuler</button
-        ><button class="danger" (click)="remove(); confirmation.close()">Supprimer</button>
+        <button class="secondary" autofocus (click)="confirmation.close()">
+          {{ t('photos.confirm.cancel') }}</button
+        ><button class="danger" (click)="remove(); confirmation.close()">
+          {{ t('photos.confirm.delete') }}
+        </button>
       </div>
     </dialog>
   `,
 })
 export class Photos implements OnInit, OnDestroy {
+  t = t;
   readonly android = /Android/i.test(navigator.userAgent);
   @ViewChild('video', { static: true }) video!: ElementRef<HTMLVideoElement>;
   @ViewChild('exportDialog', { static: true }) exportDialog!: ElementRef<HTMLDialogElement>;
@@ -228,9 +218,7 @@ export class Photos implements OnInit, OnDestroy {
       if (!this.destroyed)
         this.photos.set(all.sort((a, b) => b.created - a.created).map((p) => this.view(p)));
     } catch {
-      this.message.set(
-        'Le stockage local est indisponible. Vous pouvez tout de même prendre et exporter une photo.',
-      );
+      this.message.set(t('photos.msg.storeUnavailable'));
     }
   }
   async startCamera() {
@@ -254,8 +242,8 @@ export class Photos implements OnInit, OnDestroy {
       this.stopCamera();
       this.message.set(
         e instanceof DOMException && e.name === 'NotAllowedError'
-          ? 'Accès caméra refusé. Modifiez les autorisations ou utilisez « Choisir / prendre une photo ».'
-          : 'Caméra indisponible. Utilisez « Choisir / prendre une photo ».',
+          ? t('photos.msg.cameraDenied')
+          : t('photos.msg.cameraUnavailable'),
       );
     } finally {
       this.busy.set(false);
@@ -290,7 +278,7 @@ export class Photos implements OnInit, OnDestroy {
       const v = this.video.nativeElement;
       await this.save(await this.jpeg(v, v.videoWidth, v.videoHeight));
     } catch {
-      this.message.set('La photo n’a pas pu être prise. Réessayez.');
+      this.message.set(t('photos.msg.captureFailed'));
     } finally {
       this.busy.set(false);
     }
@@ -308,7 +296,7 @@ export class Photos implements OnInit, OnDestroy {
       await img.decode();
       await this.save(await this.jpeg(img, img.naturalWidth, img.naturalHeight));
     } catch {
-      this.message.set('Cette image ne peut pas être ouverte. Essayez une photo JPEG ou PNG.');
+      this.message.set(t('photos.msg.importFailed'));
     } finally {
       URL.revokeObjectURL(url);
       input.value = '';
@@ -339,16 +327,16 @@ export class Photos implements OnInit, OnDestroy {
       this.saved.set(true);
       this.message.set(
         downloadRequested
-          ? 'Photo enregistrée dans l’application ✓ Téléchargement JPEG demandé : consultez Fichiers → Téléchargements.'
+          ? t('photos.msg.savedWithDownload')
           : this.android
-            ? 'Photo enregistrée dans l’application. Utilisez Télécharger pour conserver une copie sur le téléphone.'
-            : 'Photo enregistrée sur cet appareil ✓',
+            ? t('photos.msg.savedAndroidNoDownload')
+            : t('photos.msg.savedOk'),
       );
     } catch {
       this.message.set(
         downloadRequested
-          ? 'Stockage de l’application indisponible. Téléchargement JPEG demandé : vérifiez Fichiers → Téléchargements pour conserver votre photo.'
-          : 'Stockage plein ou indisponible. La photo reste visible ci-dessous : téléchargez-la pour la conserver.',
+          ? t('photos.msg.saveFailedWithDownload')
+          : t('photos.msg.saveFailedNoDownload'),
       );
     }
   }
@@ -376,22 +364,20 @@ export class Photos implements OnInit, OnDestroy {
         if (this.ios) this.showExportFallback(photo);
         else {
           this.downloadFile(photo);
-          this.message.set('Le partage est indisponible ici. Téléchargement proposé à la place.');
+          this.message.set(t('photos.msg.shareUnavailable'));
         }
         return;
       }
       // Keep this call synchronous with the tap: iOS requires transient user activation.
       await navigator.share({ files: [file] });
-      this.message.set(
-        'Feuille de partage fermée. La destination choisie gère l’enregistrement de la photo.',
-      );
+      this.message.set(t('photos.msg.shareClosed'));
     } catch (e) {
       if (e instanceof DOMException && e.name === 'AbortError') {
-        this.message.set('Partage annulé. Votre photo reste dans la galerie.');
+        this.message.set(t('photos.msg.shareCancelled'));
         return;
       }
       if (this.ios) this.showExportFallback(photo);
-      else this.message.set('Partage impossible. Utilisez le bouton Télécharger.');
+      else this.message.set(t('photos.msg.shareFailed'));
     }
   }
   private showExportFallback(photo: ViewPhoto) {
@@ -406,9 +392,9 @@ export class Photos implements OnInit, OnDestroy {
       this.photos.update((all) => all.filter((photo) => photo.id !== p.id));
       if (this.latest()?.id === p.id) this.latest.set(null);
       this.release(p);
-      this.message.set('Photo supprimée.');
+      this.message.set(t('photos.msg.removed'));
     } catch {
-      this.message.set('Impossible de supprimer cette photo. Réessayez.');
+      this.message.set(t('photos.msg.removeFailed'));
     }
     this.pendingDelete.set(null);
   }

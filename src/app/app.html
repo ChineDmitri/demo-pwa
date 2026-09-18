@@ -1,37 +1,100 @@
 <a class="skip-link" href="#main" (click)="$event.preventDefault(); main.focus()"
-  >Aller au contenu</a
+  >{{ t('app.skipLink') }}</a
 >
 <div class="top-stack">
   @if (!network.online()) {
     <div class="offline-banner" role="status">
-      <span aria-hidden="true">↯</span> Vous êtes hors connexion. L’application reste disponible.
+      <span aria-hidden="true">↯</span> {{ t('app.offlineBanner') }}
     </div>
   }
   <header class="site-header">
-    <a class="brand" routerLink="/" aria-label="PWA Pocket, accueil"
+    <a class="brand" routerLink="/" [attr.aria-label]="t('app.brandAria')"
       ><span class="brand-symbol">p.</span
-      ><span>PWA<span class="brand-light">Pocket</span><small>LE WEB, EN LIBERTÉ.</small></span></a
+      ><span>PWA<span class="brand-light">Pocket</span><small>{{ t('app.tagline') }}</small></span></a
     >
-    <nav class="desktop-nav" aria-label="Navigation principale">
+    <nav class="desktop-nav" [attr.aria-label]="t('nav.ariaMain')">
       @for (link of links; track link.path) {
         <a
           [routerLink]="link.path"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
           ariaCurrentWhenActive="page"
-          >{{ link.label }}</a
+          >{{ t(link.labelKey) }}</a
         >
       }
     </nav>
-    <span class="connection" [class.disconnected]="!network.online()"
-      ><span class="live-dot"></span>{{ network.online() ? 'En ligne' : 'Hors ligne' }}</span
-    >
+    <div class="header-controls">
+      <div class="menu-holder">
+        <button
+          type="button"
+          class="icon-button menu-trigger"
+          [attr.aria-label]="t('theme.trigger') + ' (' + t('theme.' + themeMode()) + ')'"
+          aria-haspopup="menu"
+          [attr.aria-expanded]="themeMenuOpen()"
+          (click)="toggleThemeMenu()"
+        >
+          {{ resolvedTheme() === 'dark' ? '☾' : '☀' }}
+        </button>
+        @if (themeMenuOpen()) {
+          <div class="menu-panel" role="menu" [attr.aria-label]="t('theme.trigger')">
+            @for (mode of themeOptions; track mode) {
+              <button
+                type="button"
+                role="menuitemradio"
+                [attr.aria-checked]="themeMode() === mode"
+                [class.active]="themeMode() === mode"
+                (click)="chooseTheme(mode)"
+              >
+                {{ t('theme.' + mode) }}
+                @if (themeMode() === mode) {
+                  <span aria-hidden="true">✓</span>
+                }
+              </button>
+            }
+          </div>
+        }
+      </div>
+      <div class="menu-holder">
+        <button
+          type="button"
+          class="icon-button menu-trigger lang-trigger"
+          [attr.aria-label]="t('lang.trigger') + ' (' + locale().toUpperCase() + ')'"
+          aria-haspopup="menu"
+          [attr.aria-expanded]="langMenuOpen()"
+          (click)="toggleLangMenu()"
+        >
+          {{ locale().toUpperCase() }}
+        </button>
+        @if (langMenuOpen()) {
+          <div class="menu-panel" role="menu" [attr.aria-label]="t('lang.trigger')">
+            @for (option of supportedLocales; track option.code) {
+              <button
+                type="button"
+                role="menuitemradio"
+                [attr.aria-checked]="locale() === option.code"
+                [class.active]="locale() === option.code"
+                (click)="chooseLocale(option.code)"
+              >
+                {{ option.nativeName }}
+                @if (locale() === option.code) {
+                  <span aria-hidden="true">✓</span>
+                }
+              </button>
+            }
+          </div>
+        }
+      </div>
+      <span class="connection" [class.disconnected]="!network.online()"
+        ><span class="live-dot"></span
+        >{{ network.online() ? t('app.connectionOnline') : t('app.connectionOffline') }}</span
+      >
+    </div>
   </header>
 </div>
 @if (pwa.updateReady()) {
   <div class="update-banner" role="status">
-    Une nouvelle version est prête.
-    <button class="text-button" (click)="pwa.reload()">Actualiser l’application</button>
+    {{ t('app.updateBanner') }}
+    <button class="text-button" (click)="pwa.reload()">{{ t('app.updateReload') }}</button>
   </div>
 }
 <main #main id="main" tabindex="-1"><router-outlet /></main>
@@ -39,13 +102,13 @@
   <a class="brand footer-brand" routerLink="/"
     ><span class="brand-symbol">p.</span><span>PWA Pocket</span></a
   >
-  <p>Une petite application. Une grande idée du web.</p>
+  <p>{{ t('app.footerTagline') }}</p>
   <span
-    >Fait pour explorer · Démo sans backend
-    <small class="app-version">Version {{ version }}</small></span
+    >{{ t('app.footerBuiltFor') }}
+    <small class="app-version">{{ t('app.footerVersion') }} {{ version }}</small></span
   >
 </footer>
-<nav class="bottom-nav" aria-label="Navigation mobile">
+<nav class="bottom-nav" [attr.aria-label]="t('nav.ariaMobile')">
   @for (link of links; track link.path) {
     <a
       [routerLink]="link.path"
@@ -53,7 +116,7 @@
       [routerLinkActiveOptions]="{ exact: true }"
       ariaCurrentWhenActive="page"
       ><span aria-hidden="true">{{ link.icon }}</span
-      >{{ link.label }}</a
+      >{{ t(link.labelKey) }}</a
     >
   }
 </nav>
