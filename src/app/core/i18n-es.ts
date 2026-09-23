@@ -77,7 +77,8 @@ export const es: Record<string, string> = {
   'home.install.installButton': 'Instalar PWA Pocket ↧',
   'home.install.ios.title': 'En iPhone o iPad',
   'home.install.ios.step1': 'Abre este sitio en Safari.',
-  'home.install.ios.step2': 'Toca <strong>Compartir</strong> y luego <strong>Añadir a pantalla de inicio</strong>.',
+  'home.install.ios.step2':
+    'Toca <strong>Compartir</strong> y luego <strong>Añadir a pantalla de inicio</strong>.',
   'home.install.ios.step3': 'Confirma la adición y abre la aplicación desde su icono.',
   'home.install.android.title': 'En Android',
   'home.install.android.step1': 'Abre este sitio en Chrome.',
@@ -102,7 +103,8 @@ export const es: Record<string, string> = {
   'discover.notifyCard.buttonIdle': 'Probar una notificación',
   'discover.notifyCard.previewLink': 'Ver una notificación de demostración',
   'discover.preview.title': 'Hola desde tu bolsillo 👋',
-  'discover.preview.text': 'Demostración dentro de la aplicación · esto no es una notificación del sistema.',
+  'discover.preview.text':
+    'Demostración dentro de la aplicación · esto no es una notificación del sistema.',
   'discover.preview.closeAria': 'Cerrar la demostración',
   'discover.reading.eyebrow': 'UN POCO DE LECTURA',
   'discover.reading.title': 'Contenido para llevar.',
@@ -131,7 +133,8 @@ export const es: Record<string, string> = {
   'discover.compose.closeAria': 'Cerrar la ventana de escritura',
   'discover.compose.eyebrow': 'PRUEBA LA ESCRITURA',
   'discover.compose.title': 'Unas palabras',
-  'discover.compose.intro': 'Este campo permanece visible incluso cuando el teclado cubre la pantalla.',
+  'discover.compose.intro':
+    'Este campo permanece visible incluso cuando el teclado cubre la pantalla.',
   'discover.compose.label': 'Tu mensaje',
   'discover.compose.placeholder': 'Escribe aquí…',
   'discover.compose.send': 'Enviar (demo)',
@@ -142,9 +145,11 @@ export const es: Record<string, string> = {
   'sensors.eyebrow': '02 / SENSORES',
   'sensors.title.line1': 'Te toca',
   'sensors.title.emphasis': 'poner las cosas en movimiento.',
-  'sensors.intro': 'Tu posición, tu altitud y un nivel de burbuja. El mundo real se encuentra con la web.',
+  'sensors.intro':
+    'Tu posición, tu altitud y un nivel de burbuja. El mundo real se encuentra con la web.',
   'sensors.location.title': 'Estás aquí.',
-  'sensors.location.text': 'Tu posición permanece en este dispositivo. Sin seguimiento en segundo plano.',
+  'sensors.location.text':
+    'Tu posición permanece en este dispositivo. Sin seguimiento en segundo plano.',
   'sensors.location.buttonBusy': 'Buscando…',
   'sensors.location.buttonIdle': 'Obtener mi posición',
   'sensors.location.latitude': 'Latitud',
@@ -161,12 +166,52 @@ export const es: Record<string, string> = {
   'sensors.tilt.buttonStop': 'Detener el sensor',
   'sensors.tilt.buttonStart': 'Activar la inclinación',
   'sensors.status.active': '¡Sensor activo. Te toca moverte!',
-  'sensors.status.unsupported': 'Este navegador no ofrece sensor de inclinación. Pruébalo en un teléfono.',
-  'sensors.status.permissionDenied': 'Acceso al movimiento denegado. Revisa los permisos del navegador.',
+  'sensors.status.unsupported':
+    'Este navegador no ofrece sensor de inclinación. Pruébalo en un teléfono.',
+  'sensors.status.permissionDenied':
+    'Acceso al movimiento denegado. Revisa los permisos del navegador.',
   'sensors.status.waiting': 'Esperando al sensor…',
-  'sensors.status.timeout': 'No se recibió ninguna medición. El sensor puede faltar o estar bloqueado en este dispositivo.',
+  'sensors.status.timeout':
+    'No se recibió ninguna medición. El sensor puede faltar o estar bloqueado en este dispositivo.',
   'sensors.status.activationError': 'No se pudo activar el sensor. Revisa los permisos.',
   'sensors.status.stopped': 'Sensor detenido.',
+  'sensors.dictation.title': 'Dictado por voz',
+  'sensors.dictation.intro':
+    'Convierte tu voz en texto con el reconocimiento de voz integrado del navegador, o instala un modelo Vosk para una transcripción 100% local y sin conexión.',
+  'sensors.dictation.recordingBadge': 'Dictado en curso',
+  'sensors.dictation.engine.label': 'Motor de reconocimiento',
+  'sensors.dictation.engine.webspeech': 'Web Speech (rápido)',
+  'sensors.dictation.engine.vosk': 'Vosk (sin conexión)',
+  'sensors.dictation.language.label': 'Idioma del modelo',
+  'sensors.dictation.button.start': 'Iniciar el dictado',
+  'sensors.dictation.button.stop': 'Detener el dictado',
+  'sensors.dictation.button.loadingModel': 'Cargando el modelo…',
+  'sensors.dictation.button.clear': 'Borrar',
+  'sensors.dictation.textarea.label': 'Transcripción de voz',
+  'sensors.dictation.textarea.placeholder':
+    'Habla por el micrófono, tu voz se transcribirá aquí en tiempo real…',
+  'sensors.dictation.hint':
+    'El corrector ortográfico y el texto predictivo nativos del navegador siguen activos en este campo: también puedes corregir el texto escribiendo.',
+  'sensors.dictation.vosk.install.button': 'Instalar el modelo de voz (~{{size}} MB)',
+  'sensors.dictation.vosk.install.installing': 'Descargando el modelo… {{percent}}%',
+  'sensors.dictation.status.listening': 'Escuchando… Habla con claridad.',
+  'sensors.dictation.status.stopped': 'Dictado detenido.',
+  'sensors.dictation.status.cleared': 'Transcripción borrada.',
+  'sensors.dictation.status.requestingMic': 'Solicitando permiso del micrófono…',
+  'sensors.dictation.status.micUnsupported': 'Tu navegador no admite la captura de audio.',
+  'sensors.dictation.status.micDenied':
+    'Acceso al micrófono denegado. Autorízalo en los ajustes del navegador.',
+  'sensors.dictation.status.micNotFound': 'No se detectó ningún micrófono en este dispositivo.',
+  'sensors.dictation.status.webspeechUnsupported':
+    'El reconocimiento Web Speech no está disponible en este navegador. Prueba con Chrome o Edge, o usa el motor Vosk.',
+  'sensors.dictation.status.genericError': 'Se produjo un error al iniciar el dictado por voz.',
+  'sensors.dictation.status.loadingVoskEngine': 'Inicializando el motor Vosk (Wasm)…',
+  'sensors.dictation.status.loadingVoskModel': 'Cargando el modelo de idioma…',
+  'sensors.dictation.status.voskNotInstalled': 'Instala primero el modelo de voz para este idioma.',
+  'sensors.dictation.status.voskModelMissing':
+    'Modelo no disponible en este servidor: primero debe prepararse (npm run models:vosk).',
+  'sensors.dictation.status.voskDownloadError':
+    'Error al descargar el modelo de voz. Comprueba tu conexión e inténtalo de nuevo.',
 
   // Photos
   'photos.eyebrow': '03 / FOTOS',
@@ -218,7 +263,8 @@ export const es: Record<string, string> = {
   'photos.export.hint':
     'Tu foto sigue disponible en la galería de la aplicación. Si no aparece ningún menú, vuelve a intentar compartir en Safari.',
   'photos.confirm.title': '¿Eliminar esta foto?',
-  'photos.confirm.text': 'Se quitará de la galería de esta aplicación. Las copias ya exportadas se conservarán.',
+  'photos.confirm.text':
+    'Se quitará de la galería de esta aplicación. Las copias ya exportadas se conservarán.',
   'photos.confirm.cancel': 'Cancelar',
   'photos.confirm.delete': 'Eliminar',
   'photos.msg.storeUnavailable':
@@ -237,8 +283,10 @@ export const es: Record<string, string> = {
     'El almacenamiento de la aplicación no está disponible. Descarga JPEG solicitada: consulta Archivos → Descargas para conservar tu foto.',
   'photos.msg.saveFailedNoDownload':
     'Almacenamiento lleno o no disponible. La foto sigue visible abajo: descárgala para conservarla.',
-  'photos.msg.shareUnavailable': 'Compartir no está disponible aquí. Se ofrece la descarga en su lugar.',
-  'photos.msg.shareClosed': 'Hoja de compartir cerrada. El destino elegido se encarga de guardar la foto.',
+  'photos.msg.shareUnavailable':
+    'Compartir no está disponible aquí. Se ofrece la descarga en su lugar.',
+  'photos.msg.shareClosed':
+    'Hoja de compartir cerrada. El destino elegido se encarga de guardar la foto.',
   'photos.msg.shareCancelled': 'Compartir cancelado. Tu foto permanece en la galería.',
   'photos.msg.shareFailed': 'No se pudo compartir. Usa el botón Descargar.',
   'photos.msg.removed': 'Foto eliminada.',
@@ -266,7 +314,8 @@ export const es: Record<string, string> = {
     'Tu posición solo se envía a Open-Meteo cuando solicitas el clima. No se guarda ninguna posición.',
   'weather.finePrintPrefix': 'Datos:',
   'weather.finePrintSuffix': '· Demostración sin fines comerciales.',
-  'weather.msg.serviceDown': 'El servicio meteorológico no responde. Inténtalo de nuevo en un momento.',
+  'weather.msg.serviceDown':
+    'El servicio meteorológico no responde. Inténtalo de nuevo en un momento.',
   'weather.code.clear': 'Cielo despejado',
   'weather.code.cloudy': 'Nubes dispersas',
   'weather.code.fog': 'Niebla',
@@ -284,7 +333,8 @@ export const es: Record<string, string> = {
   'device.genericError': 'Se produjo un error. Inténtalo de nuevo.',
 
   // Weather API
-  'weatherApi.serviceDown': 'El servicio meteorológico no está disponible temporalmente. Inténtalo de nuevo.',
+  'weatherApi.serviceDown':
+    'El servicio meteorológico no está disponible temporalmente. Inténtalo de nuevo.',
   'weatherApi.incompleteData': 'El servicio meteorológico devolvió datos incompletos.',
 
   // PWA / notifications
@@ -292,7 +342,8 @@ export const es: Record<string, string> = {
     'Las notificaciones del sistema no están disponibles aquí. En iPhone, añade esta aplicación a la pantalla de inicio y ábrela desde su icono.',
   'pwa.notif.permissionDenied':
     'Notificaciones no permitidas. Puedes cambiar esta elección en los ajustes del navegador.',
-  'pwa.notif.swPreparing': 'El modo PWA se está preparando. Recarga la versión publicada y vuelve a intentarlo.',
+  'pwa.notif.swPreparing':
+    'El modo PWA se está preparando. Recarga la versión publicada y vuelve a intentarlo.',
   'pwa.notif.sent':
     'Notificación del sistema enviada. Que se muestre también depende de los ajustes del teléfono (modo silencioso, concentración…).',
   'pwa.notif.testFailed':

@@ -77,11 +77,13 @@ export const fr: Record<string, string> = {
   'home.install.installButton': 'Installer PWA Pocket ↧',
   'home.install.ios.title': 'Sur iPhone ou iPad',
   'home.install.ios.step1': 'Ouvrez ce site dans Safari.',
-  'home.install.ios.step2': 'Touchez <strong>Partager</strong>, puis <strong>Sur l’écran d’accueil</strong>.',
+  'home.install.ios.step2':
+    'Touchez <strong>Partager</strong>, puis <strong>Sur l’écran d’accueil</strong>.',
   'home.install.ios.step3': 'Confirmez l’ajout, puis ouvrez l’application depuis son icône.',
   'home.install.android.title': 'Sur Android',
   'home.install.android.step1': 'Ouvrez ce site dans Chrome.',
-  'home.install.android.step2': 'Touchez <strong>Installer</strong> si le bouton apparaît, ou le menu ⋮.',
+  'home.install.android.step2':
+    'Touchez <strong>Installer</strong> si le bouton apparaît, ou le menu ⋮.',
   'home.install.android.step3':
     'Choisissez <strong>Installer l’application</strong> ou <strong>Ajouter à l’écran d’accueil</strong>.',
   'home.finePrint':
@@ -132,7 +134,8 @@ export const fr: Record<string, string> = {
   'discover.compose.closeAria': 'Fermer la fenêtre de saisie',
   'discover.compose.eyebrow': 'TESTEZ LA SAISIE',
   'discover.compose.title': 'Un mot pour la route',
-  'discover.compose.intro': 'Ce champ reste visible même si le clavier s’affiche par-dessus l’écran.',
+  'discover.compose.intro':
+    'Ce champ reste visible même si le clavier s’affiche par-dessus l’écran.',
   'discover.compose.label': 'Votre message',
   'discover.compose.placeholder': 'Écrivez ici…',
   'discover.compose.send': 'Envoyer (démo)',
@@ -143,7 +146,8 @@ export const fr: Record<string, string> = {
   'sensors.eyebrow': '02 / CAPTEURS',
   'sensors.title.line1': 'À vous de',
   'sensors.title.emphasis': 'faire bouger les choses.',
-  'sensors.intro': 'Votre position, votre altitude et un niveau à bulle. Le monde réel rencontre le web.',
+  'sensors.intro':
+    'Votre position, votre altitude et un niveau à bulle. Le monde réel rencontre le web.',
   'sensors.location.title': 'Vous êtes ici.',
   'sensors.location.text': 'Votre position reste sur cet appareil. Aucun suivi en arrière-plan.',
   'sensors.location.buttonBusy': 'Recherche en cours…',
@@ -171,6 +175,46 @@ export const fr: Record<string, string> = {
     'Aucune mesure reçue. Le capteur peut être absent ou bloqué sur cet appareil.',
   'sensors.status.activationError': 'Impossible d’activer le capteur. Vérifiez les autorisations.',
   'sensors.status.stopped': 'Capteur arrêté.',
+  'sensors.dictation.title': 'Dictée vocale',
+  'sensors.dictation.intro':
+    'Convertissez votre voix en texte grâce à la reconnaissance vocale intégrée du navigateur, ou installez un modèle Vosk pour une transcription 100% locale et hors-ligne.',
+  'sensors.dictation.recordingBadge': 'Dictée en cours',
+  'sensors.dictation.engine.label': 'Moteur de reconnaissance',
+  'sensors.dictation.engine.webspeech': 'Web Speech (rapide)',
+  'sensors.dictation.engine.vosk': 'Vosk (hors-ligne)',
+  'sensors.dictation.language.label': 'Langue du modèle',
+  'sensors.dictation.button.start': 'Démarrer la dictée',
+  'sensors.dictation.button.stop': 'Arrêter la dictée',
+  'sensors.dictation.button.loadingModel': 'Chargement du modèle…',
+  'sensors.dictation.button.clear': 'Effacer',
+  'sensors.dictation.textarea.label': 'Transcription vocale',
+  'sensors.dictation.textarea.placeholder':
+    'Parlez dans votre microphone, votre voix sera transcrite ici en temps réel…',
+  'sensors.dictation.hint':
+    'Le correcteur orthographique et la saisie prédictive natifs du navigateur restent actifs dans ce champ : vous pouvez aussi corriger le texte au clavier.',
+  'sensors.dictation.vosk.install.button': 'Installer le modèle vocal (~{{size}} Mo)',
+  'sensors.dictation.vosk.install.installing': 'Téléchargement du modèle… {{percent}}%',
+  'sensors.dictation.status.listening': 'Écoute en cours… Parlez distinctement.',
+  'sensors.dictation.status.stopped': 'Dictée arrêtée.',
+  'sensors.dictation.status.cleared': 'Transcription effacée.',
+  'sensors.dictation.status.requestingMic': 'Demande d’autorisation du microphone…',
+  'sensors.dictation.status.micUnsupported':
+    'La capture audio n’est pas prise en charge par votre navigateur.',
+  'sensors.dictation.status.micDenied':
+    'Accès au microphone refusé. Autorisez-le dans les paramètres du navigateur.',
+  'sensors.dictation.status.micNotFound': 'Aucun microphone détecté sur cet appareil.',
+  'sensors.dictation.status.webspeechUnsupported':
+    'La reconnaissance vocale Web Speech n’est pas disponible sur ce navigateur. Essayez Chrome ou Edge, ou utilisez le moteur Vosk.',
+  'sensors.dictation.status.genericError':
+    'Une erreur est survenue lors du démarrage de la dictée vocale.',
+  'sensors.dictation.status.loadingVoskEngine': 'Initialisation du moteur Vosk (Wasm)…',
+  'sensors.dictation.status.loadingVoskModel': 'Chargement du modèle de langue…',
+  'sensors.dictation.status.voskNotInstalled':
+    'Installez d’abord le modèle vocal pour cette langue.',
+  'sensors.dictation.status.voskModelMissing':
+    'Modèle non disponible sur ce serveur : il doit d’abord être préparé (npm run models:vosk).',
+  'sensors.dictation.status.voskDownloadError':
+    'Échec du téléchargement du modèle vocal. Vérifiez votre connexion et réessayez.',
 
   // Photos
   'photos.eyebrow': '03 / PHOTOS',
@@ -242,7 +286,8 @@ export const fr: Record<string, string> = {
     'Stockage de l’application indisponible. Téléchargement JPEG demandé : vérifiez Fichiers → Téléchargements pour conserver votre photo.',
   'photos.msg.saveFailedNoDownload':
     'Stockage plein ou indisponible. La photo reste visible ci-dessous : téléchargez-la pour la conserver.',
-  'photos.msg.shareUnavailable': 'Le partage est indisponible ici. Téléchargement proposé à la place.',
+  'photos.msg.shareUnavailable':
+    'Le partage est indisponible ici. Téléchargement proposé à la place.',
   'photos.msg.shareClosed':
     'Feuille de partage fermée. La destination choisie gère l’enregistrement de la photo.',
   'photos.msg.shareCancelled': 'Partage annulé. Votre photo reste dans la galerie.',

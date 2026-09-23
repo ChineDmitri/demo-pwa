@@ -46,3 +46,7 @@ Thumbs.db
 # Browser tests
 /test-results
 /playwright-report
+
+# Vosk speech-recognition models (large binaries, fetched on demand via
+# `npm run models:vosk` — see scripts/prepare-vosk-models.mjs)
+/public/vosk-models/

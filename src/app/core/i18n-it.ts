@@ -77,11 +77,13 @@ export const it: Record<string, string> = {
   'home.install.installButton': 'Installa PWA Pocket ↧',
   'home.install.ios.title': 'Su iPhone o iPad',
   'home.install.ios.step1': 'Apri questo sito in Safari.',
-  'home.install.ios.step2': 'Tocca <strong>Condividi</strong>, poi <strong>Aggiungi alla schermata Home</strong>.',
+  'home.install.ios.step2':
+    'Tocca <strong>Condividi</strong>, poi <strong>Aggiungi alla schermata Home</strong>.',
   'home.install.ios.step3': 'Confermi l’aggiunta, poi apri l’app dalla sua icona.',
   'home.install.android.title': 'Su Android',
   'home.install.android.step1': 'Apri questo sito in Chrome.',
-  'home.install.android.step2': 'Tocca <strong>Installa</strong> se compare il pulsante, oppure il menu ⋮.',
+  'home.install.android.step2':
+    'Tocca <strong>Installa</strong> se compare il pulsante, oppure il menu ⋮.',
   'home.install.android.step3':
     'Scegli <strong>Installa app</strong> oppure <strong>Aggiungi a schermata Home</strong>.',
   'home.finePrint':
@@ -93,7 +95,8 @@ export const it: Record<string, string> = {
   'discover.title.emphasis': 'Una vera esperienza.',
   'discover.intro': 'Naviga, interagisci, ricevi un piccolo segnale. Tutto accade qui.',
   'discover.modalCard.title': 'Apri la conversazione',
-  'discover.modalCard.text': 'Una finestra per raccontare, confermare o semplicemente sorprenderti.',
+  'discover.modalCard.text':
+    'Una finestra per raccontare, confermare o semplicemente sorprenderti.',
   'discover.modalCard.button': 'Apri un pop-up ↗',
   'discover.notifyCard.title': 'Un piccolo saluto',
   'discover.notifyCard.text':
@@ -131,7 +134,8 @@ export const it: Record<string, string> = {
   'discover.compose.closeAria': 'Chiudi la finestra di scrittura',
   'discover.compose.eyebrow': 'PROVA LA SCRITTURA',
   'discover.compose.title': 'Qualche parola',
-  'discover.compose.intro': 'Questo campo resta visibile anche quando la tastiera copre lo schermo.',
+  'discover.compose.intro':
+    'Questo campo resta visibile anche quando la tastiera copre lo schermo.',
   'discover.compose.label': 'Il tuo messaggio',
   'discover.compose.placeholder': 'Scrivi qui…',
   'discover.compose.send': 'Invia (demo)',
@@ -142,9 +146,11 @@ export const it: Record<string, string> = {
   'sensors.eyebrow': '02 / SENSORI',
   'sensors.title.line1': 'A te il compito di',
   'sensors.title.emphasis': 'mettere le cose in movimento.',
-  'sensors.intro': 'La tua posizione, la tua altitudine e una livella a bolla. Il mondo reale incontra il web.',
+  'sensors.intro':
+    'La tua posizione, la tua altitudine e una livella a bolla. Il mondo reale incontra il web.',
   'sensors.location.title': 'Sei qui.',
-  'sensors.location.text': 'La tua posizione resta su questo dispositivo. Nessun tracciamento in background.',
+  'sensors.location.text':
+    'La tua posizione resta su questo dispositivo. Nessun tracciamento in background.',
   'sensors.location.buttonBusy': 'Ricerca in corso…',
   'sensors.location.buttonIdle': 'Ottieni la mia posizione',
   'sensors.location.latitude': 'Latitudine',
@@ -161,12 +167,54 @@ export const it: Record<string, string> = {
   'sensors.tilt.buttonStop': 'Arresta il sensore',
   'sensors.tilt.buttonStart': 'Attiva l’inclinazione',
   'sensors.status.active': 'Sensore attivo. A te muoverti!',
-  'sensors.status.unsupported': 'Questo browser non offre un sensore di inclinazione. Provalo su un telefono.',
-  'sensors.status.permissionDenied': 'Accesso al movimento negato. Controlla le autorizzazioni del browser.',
+  'sensors.status.unsupported':
+    'Questo browser non offre un sensore di inclinazione. Provalo su un telefono.',
+  'sensors.status.permissionDenied':
+    'Accesso al movimento negato. Controlla le autorizzazioni del browser.',
   'sensors.status.waiting': 'In attesa del sensore…',
-  'sensors.status.timeout': 'Nessuna misurazione ricevuta. Il sensore potrebbe essere assente o bloccato su questo dispositivo.',
+  'sensors.status.timeout':
+    'Nessuna misurazione ricevuta. Il sensore potrebbe essere assente o bloccato su questo dispositivo.',
   'sensors.status.activationError': 'Impossibile attivare il sensore. Controlla le autorizzazioni.',
   'sensors.status.stopped': 'Sensore arrestato.',
+  'sensors.dictation.title': 'Dettatura vocale',
+  'sensors.dictation.intro':
+    'Trasforma la tua voce in testo con il riconoscimento vocale integrato del browser, oppure installa un modello Vosk per una trascrizione 100% locale e offline.',
+  'sensors.dictation.recordingBadge': 'Dettatura in corso',
+  'sensors.dictation.engine.label': 'Motore di riconoscimento',
+  'sensors.dictation.engine.webspeech': 'Web Speech (veloce)',
+  'sensors.dictation.engine.vosk': 'Vosk (offline)',
+  'sensors.dictation.language.label': 'Lingua del modello',
+  'sensors.dictation.button.start': 'Avvia la dettatura',
+  'sensors.dictation.button.stop': 'Interrompi la dettatura',
+  'sensors.dictation.button.loadingModel': 'Caricamento del modello…',
+  'sensors.dictation.button.clear': 'Cancella',
+  'sensors.dictation.textarea.label': 'Trascrizione vocale',
+  'sensors.dictation.textarea.placeholder':
+    'Parla nel microfono, la tua voce verrà trascritta qui in tempo reale…',
+  'sensors.dictation.hint':
+    'Il correttore ortografico e il testo predittivo nativi del browser restano attivi in questo campo: puoi anche correggere il testo digitando.',
+  'sensors.dictation.vosk.install.button': 'Installa il modello vocale (~{{size}} MB)',
+  'sensors.dictation.vosk.install.installing': 'Download del modello… {{percent}}%',
+  'sensors.dictation.status.listening': 'In ascolto… Parla chiaramente.',
+  'sensors.dictation.status.stopped': 'Dettatura interrotta.',
+  'sensors.dictation.status.cleared': 'Trascrizione cancellata.',
+  'sensors.dictation.status.requestingMic': 'Richiesta di autorizzazione del microfono…',
+  'sensors.dictation.status.micUnsupported': 'La cattura audio non è supportata dal tuo browser.',
+  'sensors.dictation.status.micDenied':
+    'Accesso al microfono negato. Autorizzalo nelle impostazioni del browser.',
+  'sensors.dictation.status.micNotFound': 'Nessun microfono rilevato su questo dispositivo.',
+  'sensors.dictation.status.webspeechUnsupported':
+    'Il riconoscimento Web Speech non è disponibile su questo browser. Prova con Chrome o Edge, oppure usa il motore Vosk.',
+  'sensors.dictation.status.genericError':
+    'Si è verificato un errore durante l’avvio della dettatura vocale.',
+  'sensors.dictation.status.loadingVoskEngine': 'Inizializzazione del motore Vosk (Wasm)…',
+  'sensors.dictation.status.loadingVoskModel': 'Caricamento del modello linguistico…',
+  'sensors.dictation.status.voskNotInstalled':
+    'Installa prima il modello vocale per questa lingua.',
+  'sensors.dictation.status.voskModelMissing':
+    'Modello non disponibile su questo server: deve prima essere preparato (npm run models:vosk).',
+  'sensors.dictation.status.voskDownloadError':
+    'Download del modello vocale non riuscito. Controlla la connessione e riprova.',
 
   // Photos
   'photos.eyebrow': '03 / FOTO',
@@ -218,7 +266,8 @@ export const it: Record<string, string> = {
   'photos.export.hint':
     'La tua foto resta disponibile nella galleria dell’app. Se non appare alcun menu, riprova a condividere in Safari.',
   'photos.confirm.title': 'Eliminare questa foto?',
-  'photos.confirm.text': 'Verrà rimossa dalla galleria di questa app. Le copie già esportate saranno conservate.',
+  'photos.confirm.text':
+    'Verrà rimossa dalla galleria di questa app. Le copie già esportate saranno conservate.',
   'photos.confirm.cancel': 'Annulla',
   'photos.confirm.delete': 'Elimina',
   'photos.msg.storeUnavailable':
@@ -227,7 +276,8 @@ export const it: Record<string, string> = {
     'Accesso alla fotocamera negato. Modifica le autorizzazioni o usa «Scegli / scatta una foto».',
   'photos.msg.cameraUnavailable': 'Fotocamera non disponibile. Usa «Scegli / scatta una foto».',
   'photos.msg.captureFailed': 'Non è stato possibile scattare la foto. Riprova.',
-  'photos.msg.importFailed': 'Questa immagine non può essere aperta. Prova con una foto JPEG o PNG.',
+  'photos.msg.importFailed':
+    'Questa immagine non può essere aperta. Prova con una foto JPEG o PNG.',
   'photos.msg.savedWithDownload':
     'Foto salvata nell’app ✓ Download JPEG richiesto: controlla File → Download.',
   'photos.msg.savedAndroidNoDownload':
@@ -237,8 +287,10 @@ export const it: Record<string, string> = {
     'La memoria dell’app non è disponibile. Download JPEG richiesto: controlla File → Download per conservare la tua foto.',
   'photos.msg.saveFailedNoDownload':
     'Memoria piena o non disponibile. La foto resta visibile qui sotto: scaricala per conservarla.',
-  'photos.msg.shareUnavailable': 'La condivisione non è disponibile qui. Viene proposto il download in alternativa.',
-  'photos.msg.shareClosed': 'Foglio di condivisione chiuso. La destinazione scelta gestisce il salvataggio della foto.',
+  'photos.msg.shareUnavailable':
+    'La condivisione non è disponibile qui. Viene proposto il download in alternativa.',
+  'photos.msg.shareClosed':
+    'Foglio di condivisione chiuso. La destinazione scelta gestisce il salvataggio della foto.',
   'photos.msg.shareCancelled': 'Condivisione annullata. La tua foto resta nella galleria.',
   'photos.msg.shareFailed': 'Condivisione non riuscita. Usa il pulsante Scarica.',
   'photos.msg.removed': 'Foto eliminata.',
@@ -292,7 +344,8 @@ export const it: Record<string, string> = {
     'Le notifiche di sistema non sono disponibili qui. Su iPhone, aggiungi questa app alla schermata Home e aprila dalla sua icona.',
   'pwa.notif.permissionDenied':
     'Notifiche non autorizzate. Puoi modificare questa scelta nelle impostazioni del browser.',
-  'pwa.notif.swPreparing': 'La modalità PWA si sta preparando. Ricarica la versione pubblicata e riprova.',
+  'pwa.notif.swPreparing':
+    'La modalità PWA si sta preparando. Ricarica la versione pubblicata e riprova.',
   'pwa.notif.sent':
     'Notifica di sistema inviata. La visualizzazione dipende anche dalle impostazioni del telefono (modalità silenziosa, concentrazione…).',
   'pwa.notif.testFailed':

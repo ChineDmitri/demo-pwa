@@ -81,7 +81,8 @@ export const en: Record<string, string> = {
   'home.install.ios.step3': 'Confirm the addition, then open the app from its icon.',
   'home.install.android.title': 'On Android',
   'home.install.android.step1': 'Open this site in Chrome.',
-  'home.install.android.step2': 'Tap <strong>Install</strong> if the button appears, or the ⋮ menu.',
+  'home.install.android.step2':
+    'Tap <strong>Install</strong> if the button appears, or the ⋮ menu.',
   'home.install.android.step3':
     'Choose <strong>Install app</strong> or <strong>Add to Home screen</strong>.',
   'home.finePrint':
@@ -141,7 +142,8 @@ export const en: Record<string, string> = {
   'sensors.eyebrow': '02 / SENSORS',
   'sensors.title.line1': 'Your turn to',
   'sensors.title.emphasis': 'get things moving.',
-  'sensors.intro': 'Your position, your altitude, and a bubble level. The real world meets the web.',
+  'sensors.intro':
+    'Your position, your altitude, and a bubble level. The real world meets the web.',
   'sensors.location.title': 'You are here.',
   'sensors.location.text': 'Your position stays on this device. No background tracking.',
   'sensors.location.buttonBusy': 'Searching…',
@@ -163,9 +165,47 @@ export const en: Record<string, string> = {
   'sensors.status.unsupported': 'This browser doesn’t offer a tilt sensor. Try it on a phone.',
   'sensors.status.permissionDenied': 'Motion access denied. Check your browser permissions.',
   'sensors.status.waiting': 'Waiting for the sensor…',
-  'sensors.status.timeout': 'No reading received. The sensor may be missing or blocked on this device.',
+  'sensors.status.timeout':
+    'No reading received. The sensor may be missing or blocked on this device.',
   'sensors.status.activationError': 'Couldn’t enable the sensor. Check your permissions.',
   'sensors.status.stopped': 'Sensor stopped.',
+  'sensors.dictation.title': 'Voice dictation',
+  'sensors.dictation.intro':
+    'Turn your voice into text with the browser’s built-in speech recognition, or install a Vosk model for a fully local, offline transcription.',
+  'sensors.dictation.recordingBadge': 'Dictation in progress',
+  'sensors.dictation.engine.label': 'Recognition engine',
+  'sensors.dictation.engine.webspeech': 'Web Speech (fast)',
+  'sensors.dictation.engine.vosk': 'Vosk (offline)',
+  'sensors.dictation.language.label': 'Model language',
+  'sensors.dictation.button.start': 'Start dictation',
+  'sensors.dictation.button.stop': 'Stop dictation',
+  'sensors.dictation.button.loadingModel': 'Loading model…',
+  'sensors.dictation.button.clear': 'Clear',
+  'sensors.dictation.textarea.label': 'Voice transcript',
+  'sensors.dictation.textarea.placeholder':
+    'Speak into your microphone, your voice will be transcribed here in real time…',
+  'sensors.dictation.hint':
+    'The browser’s native spellchecker and predictive text stay active in this field: you can also correct the text by typing.',
+  'sensors.dictation.vosk.install.button': 'Install the voice model (~{{size}} MB)',
+  'sensors.dictation.vosk.install.installing': 'Downloading model… {{percent}}%',
+  'sensors.dictation.status.listening': 'Listening… Speak clearly.',
+  'sensors.dictation.status.stopped': 'Dictation stopped.',
+  'sensors.dictation.status.cleared': 'Transcript cleared.',
+  'sensors.dictation.status.requestingMic': 'Requesting microphone permission…',
+  'sensors.dictation.status.micUnsupported': 'Audio capture isn’t supported by your browser.',
+  'sensors.dictation.status.micDenied':
+    'Microphone access denied. Allow it in your browser settings.',
+  'sensors.dictation.status.micNotFound': 'No microphone detected on this device.',
+  'sensors.dictation.status.webspeechUnsupported':
+    'Web Speech recognition isn’t available in this browser. Try Chrome or Edge, or use the Vosk engine.',
+  'sensors.dictation.status.genericError': 'Something went wrong while starting voice dictation.',
+  'sensors.dictation.status.loadingVoskEngine': 'Initializing the Vosk (Wasm) engine…',
+  'sensors.dictation.status.loadingVoskModel': 'Loading the language model…',
+  'sensors.dictation.status.voskNotInstalled': 'Install the voice model for this language first.',
+  'sensors.dictation.status.voskModelMissing':
+    'Model not available on this server: it must be prepared first (npm run models:vosk).',
+  'sensors.dictation.status.voskDownloadError':
+    'Failed to download the voice model. Check your connection and try again.',
 
   // Photos
   'photos.eyebrow': '03 / PHOTOS',
@@ -217,7 +257,8 @@ export const en: Record<string, string> = {
   'photos.export.hint':
     'Your photo remains available in the app’s gallery. If no menu appears, try sharing again in Safari.',
   'photos.confirm.title': 'Delete this photo?',
-  'photos.confirm.text': 'It will be removed from this app’s gallery. Copies already exported will be kept.',
+  'photos.confirm.text':
+    'It will be removed from this app’s gallery. Copies already exported will be kept.',
   'photos.confirm.cancel': 'Cancel',
   'photos.confirm.delete': 'Delete',
   'photos.msg.storeUnavailable':
@@ -291,7 +332,8 @@ export const en: Record<string, string> = {
     'System notifications aren’t available here. On iPhone, add this app to your Home Screen then open it from its icon.',
   'pwa.notif.permissionDenied':
     'Notifications not allowed. You can change this choice in your browser settings.',
-  'pwa.notif.swPreparing': 'PWA mode is getting ready. Reload the published version, then try again.',
+  'pwa.notif.swPreparing':
+    'PWA mode is getting ready. Reload the published version, then try again.',
   'pwa.notif.sent':
     'System notification sent. Whether it shows up also depends on your phone’s settings (silent mode, focus…).',
   'pwa.notif.testFailed':

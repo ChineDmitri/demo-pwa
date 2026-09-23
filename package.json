@@ -9,7 +9,8 @@
     "test": "ng test",
     "test:ci": "ng test --watch=false",
     "test:e2e": "playwright test",
-    "preview": "node scripts/serve.mjs"
+    "preview": "node scripts/serve.mjs",
+    "models:vosk": "node scripts/prepare-vosk-models.mjs"
   },
   "private": true,
   "packageManager": "npm@11.19.0",
