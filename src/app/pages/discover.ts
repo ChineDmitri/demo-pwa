@@ -122,6 +122,9 @@ import { t } from '../core/i18n';
         <textarea
           rows="4"
           autofocus
+          autocorrect="on"
+          autocapitalize="sentences"
+          spellcheck="true"
           [placeholder]="t('discover.compose.placeholder')"
           [value]="composeMessage()"
           (input)="onComposeInput($event)"
